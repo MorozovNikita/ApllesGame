@@ -14,9 +14,11 @@ namespace ApplesGame
 
 		assert(eatAppleSoundBuffer.loadFromFile(RESOURCES_PATH + "\\AppleEat.wav"));
 		assert(deathSoundBuffer.loadFromFile(RESOURCES_PATH + "\\Death.wav"));
+		assert(winSoundBuffer.loadFromFile(RESOURCES_PATH + "\\Win.wav"));
 
 		eatAppleSound.setBuffer(eatAppleSoundBuffer);
 		deathSound.setBuffer(deathSoundBuffer);
+		winSound.setBuffer(winSoundBuffer);
 
 		backgroundSprite.setTexture(backgroundTexture);
 
@@ -25,7 +27,7 @@ namespace ApplesGame
 		const float scaleY = SCREEN_HEIGHT / static_cast<float>(textureSize.y);
 		backgroundSprite.setScale(scaleX, scaleY);
 
-		resetState();
+		menu.init();
 	}
 
 	void Game::update(const float& dt)
@@ -89,14 +91,24 @@ namespace ApplesGame
 				if (isCirclesCollide(player.position, PLAYER_SIZE / 2.f, apples[i].position, APPLE_SIZE / 2.f))
 				{
 					++numEatenApples;
-					player.speed += ACCELERATION;
 
-					apples[i].position = getRandomPosition(SCREEN_WIDTH, SCREEN_HEIGHT);
+					if (isWithAccelerationMode())
+						player.speed += ACCELERATION;
+
+					if (isInfiniteApplesMode())
+						apples[i].position = getRandomPosition(SCREEN_WIDTH, SCREEN_HEIGHT);
+					else
+						apples[i].position = { -100.f, -100.f };
 
 					eatAppleSound.play();
-
 					scoreboard.update(numEatenApples);
 				}
+			}
+
+			if (!isInfiniteApplesMode() && numEatenApples >= NUM_APPLES)
+			{
+				restart(true);
+				return;
 			}
 
 			// find player collisions with barriers
@@ -126,6 +138,16 @@ namespace ApplesGame
 		scoreboard.draw(window);
 	}
 
+	GameMode Game::selectMode(sf::RenderWindow& window)
+	{
+		currentMode = menu.run(window);
+
+		if (currentMode != GameMode::None)
+			resetState();
+
+		return currentMode;
+	}
+
 	void Game::initApples()
 	{
 		apples.resize(NUM_APPLES);
@@ -152,14 +174,27 @@ namespace ApplesGame
 		pauseTimeLeft = 0.f;
 	}
 
-	void Game::restart()
+	void Game::restart(bool isWin)
 	{
-		deathSound.play();
-
+		if (isWin)
+			winSound.play();
+		else
+			deathSound.play();
+			
 		resetState();
 
 		isPaused = true;
 		pauseTimeLeft = pauseTime;
+	}
+
+	bool Game::isInfiniteApplesMode() const
+	{
+		return hasFlag(currentMode, GameMode::InfiniteApples);
+	}
+
+	bool Game::isWithAccelerationMode() const
+	{
+		return hasFlag(currentMode, GameMode::WithAcceleration);
 	}
 
 } // namespace ApplesGame

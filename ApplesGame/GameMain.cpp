@@ -4,8 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
-#include <vector>
-
 #include "Game.h"
 
 int main()
@@ -21,6 +19,11 @@ int main()
 	// game initialization
 	ApplesGame::Game game;
 	game.init();
+
+	// select mode
+	GameMode selectedMode = game.selectMode(window);
+	if (selectedMode == GameMode::None)
+		return 0;
 
 	// init game clock
 	sf::Clock gameClock;

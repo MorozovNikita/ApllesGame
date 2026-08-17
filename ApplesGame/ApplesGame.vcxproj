@@ -163,6 +163,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="Math.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scoreboard.cpp" />
   </ItemGroup>
@@ -171,7 +172,9 @@
     <ClInclude Include="Barrier.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameMode.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scoreboard.h" />
   </ItemGroup>

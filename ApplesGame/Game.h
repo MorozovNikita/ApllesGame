@@ -6,6 +6,7 @@
 #include "Barrier.h"
 #include "Player.h"
 #include "Scoreboard.h"
+#include "Menu.h"
 
 namespace ApplesGame
 {
@@ -17,6 +18,8 @@ namespace ApplesGame
 		void update(const float& dt);
 		void draw(sf::RenderWindow& window);
 
+		GameMode selectMode(sf::RenderWindow& window);
+
 	private:
 		Player player;
 
@@ -24,12 +27,15 @@ namespace ApplesGame
 		std::vector<Barrier> barriers;
 
 		Scoreboard scoreboard;
+		Menu menu;
 
 		// global game data
 		int numEatenApples{ 0 };
 		bool isPaused{ false };
 		float pauseTime{ PAUSE_TIME };
 		float pauseTimeLeft{ 0.f };
+
+		GameMode currentMode{ GameMode::None };
 
 		// resources
 		sf::Texture playerTexture;
@@ -38,9 +44,11 @@ namespace ApplesGame
 
 		sf::SoundBuffer eatAppleSoundBuffer;
 		sf::SoundBuffer deathSoundBuffer;
+		sf::SoundBuffer winSoundBuffer;
 
 		sf::Sound eatAppleSound;
 		sf::Sound deathSound;
+		sf::Sound winSound;
 
 		sf::Texture backgroundTexture;
 		sf::Sprite backgroundSprite;
@@ -48,7 +56,10 @@ namespace ApplesGame
 		void initApples();
 		void initBarriers();
 		void resetState();
-		void restart();
+		void restart(bool isWin = false);
+
+		bool isInfiniteApplesMode() const;
+		bool isWithAccelerationMode() const;
 	};
 
 } // namespace ApplesGame

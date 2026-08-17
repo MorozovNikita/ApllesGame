@@ -22,7 +22,15 @@ namespace ApplesGame
 
 	const float PAUSE_TIME			 = 2.f;
 
-	const float FONT_SIZE			 = 28.f;
+	const int FONT_SIZE				 = 28;
 	const float MARGIN				 = 15.f;
+
+	// menu
+	const int TITLE_SIZE			 = 24;
+	const int ITEM_SIZE				 = 16;
+	const float SPACING				 = 45.f;
+	const float MARGIN_TOP			 = 100.f;
+	const float ARROW_SIZE			 = 14.f;
+	const float ARROW_GAP			 = 10.f;
 
 } // namespace ApplesGame

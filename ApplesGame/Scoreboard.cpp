@@ -9,7 +9,7 @@ namespace ApplesGame
 {
     void Scoreboard::init()
     {
-        assert(font.loadFromFile(RESOURCES_PATH + "\\Fonts\\Agitpropc.otf"));
+        assert(font.loadFromFile(RESOURCES_PATH + "\\Fonts\\PressStart2P-Regular.ttf"));
 
         scoreText.setFont(font);
         scoreText.setCharacterSize(FONT_SIZE);
