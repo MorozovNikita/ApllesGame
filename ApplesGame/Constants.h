@@ -14,7 +14,9 @@ namespace ApplesGame
 	const float ACCELERATION		 = 20.f;
 	const float PLAYER_SIZE			 = 20.f;
 
-	const int NUM_APPLES			 = 20;
+	//const int NUM_APPLES			 = 20;
+	const int MIN_APPLES_COUNT		 = 15;
+	const int MAX_APPLES_COUNT		 = 40;
 	const float APPLE_SIZE			 = 20.f;
 
 	const int NUM_BARRIERS			 = 5;

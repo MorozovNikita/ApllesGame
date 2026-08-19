@@ -31,6 +31,7 @@ namespace ApplesGame
 
 		// global game data
 		int numEatenApples{ 0 };
+		int currentApplesCount{ 0 };
 		bool isPaused{ false };
 		float pauseTime{ PAUSE_TIME };
 		float pauseTimeLeft{ 0.f };
@@ -57,6 +58,8 @@ namespace ApplesGame
 		void initBarriers();
 		void resetState();
 		void restart(bool isWin = false);
+
+		void randomizeApplesCount();
 
 		bool isInfiniteApplesMode() const;
 		bool isWithAccelerationMode() const;

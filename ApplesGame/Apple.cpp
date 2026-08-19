@@ -7,6 +7,8 @@ namespace ApplesGame
 
 	void Apple::init(const sf::Texture& texture)
 	{
+		isEaten = false;
+
 		position = getRandomPosition(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 		sprite.setTexture(texture);

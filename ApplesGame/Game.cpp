@@ -1,6 +1,7 @@
 #include "Game.h"
 
 #include <cassert>
+#include <random>
 
 namespace ApplesGame
 {
@@ -86,9 +87,12 @@ namespace ApplesGame
 			}
 
 			// find player collisions with apples
-			for (int i = 0; i < NUM_APPLES; ++i)
+			for (Apple& apple : apples)
 			{
-				if (isCirclesCollide(player.position, PLAYER_SIZE / 2.f, apples[i].position, APPLE_SIZE / 2.f))
+				if (apple.isEaten)
+					continue;
+
+				if (isCirclesCollide(player.position, PLAYER_SIZE / 2.f, apple.position, APPLE_SIZE / 2.f))
 				{
 					++numEatenApples;
 
@@ -96,16 +100,22 @@ namespace ApplesGame
 						player.speed += ACCELERATION;
 
 					if (isInfiniteApplesMode())
-						apples[i].position = getRandomPosition(SCREEN_WIDTH, SCREEN_HEIGHT);
+					{
+						apple.position = getRandomPosition(SCREEN_WIDTH, SCREEN_HEIGHT);
+					}
 					else
-						apples[i].position = { -100.f, -100.f };
+					{
+						// mark the apple as eaten so that don't have to process the collision
+						apple.isEaten = true;
+						apple.position = { -100.f, -100.f };
+					}
 
 					eatAppleSound.play();
 					scoreboard.update(numEatenApples);
 				}
 			}
 
-			if (!isInfiniteApplesMode() && numEatenApples >= NUM_APPLES)
+			if (!isInfiniteApplesMode() && numEatenApples >= apples.size())
 			{
 				restart(true);
 				return;
@@ -150,7 +160,7 @@ namespace ApplesGame
 
 	void Game::initApples()
 	{
-		apples.resize(NUM_APPLES);
+		apples.resize(currentApplesCount);
 		for (Apple& apple : apples)
 			apple.init(appleTexture);
 	}
@@ -164,6 +174,8 @@ namespace ApplesGame
 
 	void Game::resetState()
 	{
+		randomizeApplesCount();
+
 		player.init(playerTexture);
 		initApples();
 		initBarriers();
@@ -185,6 +197,15 @@ namespace ApplesGame
 
 		isPaused = true;
 		pauseTimeLeft = pauseTime;
+	}
+
+	void Game::randomizeApplesCount()
+	{
+		static std::random_device rd;
+		static std::mt19937 gen(rd());
+
+		std::uniform_int_distribution<int> dist(MIN_APPLES_COUNT, MAX_APPLES_COUNT);
+		currentApplesCount = dist(gen);
 	}
 
 	bool Game::isInfiniteApplesMode() const
