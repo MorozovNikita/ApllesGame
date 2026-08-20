@@ -7,7 +7,7 @@
 
 namespace ApplesGame
 {
-    void Scoreboard::init()
+    void Scoreboard::init(const int& totalApples)
     {
         assert(font.loadFromFile(RESOURCES_PATH + "\\Fonts\\PressStart2P-Regular.ttf"));
 
@@ -17,12 +17,17 @@ namespace ApplesGame
         scoreText.setStyle(sf::Text::Bold);
         scoreText.setPosition(MARGIN, MARGIN);
 
-        update(0);
+        totalApples ? update(0, totalApples) : update(0);
     }
 
     void Scoreboard::update(int numEatenApples)
     {
         scoreText.setString("Apples: " + std::to_string(numEatenApples));
+    }
+
+    void Scoreboard::update(const int& numEatenApples, const int& totalApples)
+    {
+        scoreText.setString("Apples: " + std::to_string(numEatenApples) + '/' + std::to_string(totalApples));
     }
 
     void Scoreboard::draw(sf::RenderWindow& window)

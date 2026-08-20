@@ -102,16 +102,17 @@ namespace ApplesGame
 					if (isInfiniteApplesMode())
 					{
 						apple.position = getRandomPosition(SCREEN_WIDTH, SCREEN_HEIGHT);
+						scoreboard.update(numEatenApples);
 					}
 					else
 					{
 						// mark the apple as eaten so that don't have to process the collision
 						apple.isEaten = true;
 						apple.position = { -100.f, -100.f };
+						scoreboard.update(numEatenApples, currentApplesCount);
 					}
 
 					eatAppleSound.play();
-					scoreboard.update(numEatenApples);
 				}
 			}
 
@@ -179,7 +180,7 @@ namespace ApplesGame
 		player.init(playerTexture);
 		initApples();
 		initBarriers();
-		scoreboard.init();
+		scoreboard.init((isInfiniteApplesMode() ? 0 : currentApplesCount));
 
 		numEatenApples = 0;
 		isPaused = false;
@@ -204,7 +205,19 @@ namespace ApplesGame
 		static std::random_device rd;
 		static std::mt19937 gen(rd());
 
-		std::uniform_int_distribution<int> dist(MIN_APPLES_COUNT, MAX_APPLES_COUNT);
+		int min{ 0 }, max{ 0 };
+		if (isInfiniteApplesMode())
+		{
+			min = MIN_APPLES_INFINITE;
+			max = MAX_APPLES_INFINITE;
+		}
+		else
+		{
+			min = MIN_APPLES_FINITE;
+			max = MAX_APPLES_FINITE;
+		}
+
+		std::uniform_int_distribution<int> dist(min, max);
 		currentApplesCount = dist(gen);
 	}
 
