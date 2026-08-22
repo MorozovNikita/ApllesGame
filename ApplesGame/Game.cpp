@@ -162,7 +162,12 @@ namespace ApplesGame
 		m_currentMode = m_menu.run(window);
 
 		if (m_currentMode != GameMode::None)
+		{
 			resetState();
+
+			m_isPaused = true;
+			m_pauseTimeLeft = m_pauseTime;
+		}
 
 		return m_currentMode;
 	}

@@ -28,15 +28,12 @@ int main()
 
 	// init game clock
 	sf::Clock gameClock;
-	float lastTime = gameClock.getElapsedTime().asSeconds();
 
 	// main loop
 	while (window.isOpen())
 	{
 		// delta time
-		float currentTime = gameClock.getElapsedTime().asSeconds();
-		float dt = currentTime - lastTime;
-		lastTime = currentTime;
+		float dt = gameClock.restart().asSeconds();
 		 
 		// read events
 		sf::Event event;
@@ -50,7 +47,12 @@ int main()
 
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
 			{
-				window.close();
+				selectedMode = game.selectMode(window);
+				if (selectedMode == GameMode::None)
+					return 0;
+
+				gameClock.restart();
+				dt = 0.f;
 				break;
 			}
 		}
