@@ -30,8 +30,8 @@ namespace ApplesGame
 
 		sf::RenderWindow* m_window{ nullptr };
 
-		Scoreboard m_scoreboard;
 		Menu m_menu;
+		Scoreboard m_scoreboard;
 		NameInputScreen m_nameInput;
 
 		// global game data

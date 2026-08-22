@@ -7,6 +7,7 @@
 
 #include "Constants.h"
 #include "GameMode.h"
+#include "LeaderboardScreen.h"
 
 namespace ApplesGame
 {
@@ -30,6 +31,8 @@ namespace ApplesGame
         const sf::Font* m_font{ nullptr };
         std::vector<MenuItem> m_items;
         int m_selectedIndex{ 0 };
+
+        LeaderboardScreen m_leaderboard;
 
         std::vector<sf::Text> m_itemTexts;
         sf::Text m_titleText;

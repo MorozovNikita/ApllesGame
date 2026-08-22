@@ -34,6 +34,12 @@
     <ClCompile Include="NameInputScreen.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="LeaderboardScreen.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Leaderboard.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -64,6 +70,12 @@
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="NameInputScreen.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="LeaderboardScreen.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Leaderboard.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

@@ -35,6 +35,7 @@ namespace ApplesGame
 	const float MENU_MARGIN_TOP			 = 100.f;
 	const float MENU_ARROW_SIZE			 = 14.f;
 	const float MENU_ARROW_GAP			 = 10.f;
+	const int LEADERBOARD_INDEX			 = 4;
 
 	// nameInput
 	const int NAME_INPUT_TITLE_SIZE		 = 28;
