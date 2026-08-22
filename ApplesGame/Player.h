@@ -22,10 +22,10 @@ namespace ApplesGame
 		void draw(sf::RenderWindow& window);
 		void updateSprite(float dt);
 
-		Position2D position;
-		float speed{ INITIAL_SPEED };
-		PlayerDirection direction{ PlayerDirection::Right };
-		sf::Sprite sprite;
+		Position2D m_position;
+		float m_speed{ INITIAL_SPEED };
+		PlayerDirection m_direction{ PlayerDirection::Right };
+		sf::Sprite m_sprite;
 	};
 
 } // namespace ApplesGame

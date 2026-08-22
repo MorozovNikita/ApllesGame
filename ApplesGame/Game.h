@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Scoreboard.h"
 #include "Menu.h"
+#include "NameInputScreen.h"
 
 namespace ApplesGame
 {
@@ -17,42 +18,48 @@ namespace ApplesGame
 		void init();
 		void update(const float& dt);
 		void draw(sf::RenderWindow& window);
+		void setWindow(const sf::RenderWindow& window);
 
 		GameMode selectMode(sf::RenderWindow& window);
 
 	private:
-		Player player;
+		Player m_player;
 
-		std::vector<Apple> apples;
-		std::vector<Barrier> barriers;
+		std::vector<Apple> m_apples;
+		std::vector<Barrier> m_barriers;
 
-		Scoreboard scoreboard;
-		Menu menu;
+		sf::RenderWindow* m_window{ nullptr };
+
+		Scoreboard m_scoreboard;
+		Menu m_menu;
+		NameInputScreen m_nameInput;
 
 		// global game data
-		int numEatenApples{ 0 };
-		int currentApplesCount{ 0 };
-		bool isPaused{ false };
-		float pauseTime{ PAUSE_TIME };
-		float pauseTimeLeft{ 0.f };
+		int m_numEatenApples{ 0 };
+		int m_currentApplesCount{ 0 };
+		bool m_isPaused{ false };
+		float m_pauseTime{ PAUSE_TIME };
+		float m_pauseTimeLeft{ 0.f };
 
-		GameMode currentMode{ GameMode::None };
+		GameMode m_currentMode{ GameMode::None };
 
 		// resources
-		sf::Texture playerTexture;
-		sf::Texture appleTexture;
-		sf::Texture barrierTexture;
+		sf::Texture m_playerTexture;
+		sf::Texture m_appleTexture;
+		sf::Texture m_barrierTexture;
 
-		sf::SoundBuffer eatAppleSoundBuffer;
-		sf::SoundBuffer deathSoundBuffer;
-		sf::SoundBuffer winSoundBuffer;
+		sf::SoundBuffer m_eatAppleSoundBuffer;
+		sf::SoundBuffer m_deathSoundBuffer;
+		sf::SoundBuffer m_winSoundBuffer;
 
-		sf::Sound eatAppleSound;
-		sf::Sound deathSound;
-		sf::Sound winSound;
+		sf::Sound m_eatAppleSound;
+		sf::Sound m_deathSound;
+		sf::Sound m_winSound;
 
-		sf::Texture backgroundTexture;
-		sf::Sprite backgroundSprite;
+		sf::Texture m_backgroundTexture;
+		sf::Sprite m_backgroundSprite;
+
+		sf::Font m_font;
 
 		void initApples();
 		void initBarriers();

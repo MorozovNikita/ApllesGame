@@ -12,9 +12,9 @@ namespace ApplesGame
 		void init(const sf::Texture& texture);
 		void draw(sf::RenderWindow& window);
 
-		Position2D position;
-		sf::RectangleShape shape;
-		sf::Sprite sprite;
+		Position2D m_position;
+		sf::RectangleShape m_shape;
+		sf::Sprite m_sprite;
 	};
 
 } // namespace ApplesGame

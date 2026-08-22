@@ -19,7 +19,7 @@ namespace ApplesGame
     class Menu
     {
     public:
-        void init();
+        void init(const sf::Font& font);
         GameMode run(sf::RenderWindow& window);
 
     private:
@@ -27,20 +27,14 @@ namespace ApplesGame
         void handleInput(const sf::Event& event);
         void updateTexts();
 
-        sf::Font font;
-        std::vector<MenuItem> items;
-        int selectedIndex{ 0 };
+        const sf::Font* m_font{ nullptr };
+        std::vector<MenuItem> m_items;
+        int m_selectedIndex{ 0 };
 
-        std::vector<sf::Text> itemTexts;
-        sf::Text titleText;
-        sf::Text hintText;
-        sf::VertexArray arrowIndicator;
-
-        sf::Color backgroundColor{ sf::Color(20, 20, 40) };
-        sf::Color normalColor{ sf::Color(200, 200, 200) };
-        sf::Color selectedColor{ sf::Color::Yellow };
-        sf::Color titleColor{ sf::Color::White };
-        sf::Color hintColor{ sf::Color(150, 150, 150) };
+        std::vector<sf::Text> m_itemTexts;
+        sf::Text m_titleText;
+        sf::Text m_hintText;
+        sf::VertexArray m_arrowIndicator;
     };
 
 } // namespace ApplesGame

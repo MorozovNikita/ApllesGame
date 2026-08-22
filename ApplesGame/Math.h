@@ -3,6 +3,7 @@
 namespace sf
 {
 	class Sprite;
+	class Text;
 }
 
 namespace ApplesGame
@@ -44,5 +45,7 @@ namespace ApplesGame
 
 	void setSpriteSize(sf::Sprite& sprite, float desiredWidth, float desiredHeight);
 	void setSpriteRelativeOrigin(sf::Sprite& sprite, float originX, float originY);
+
+	void centerTextHorizontally(sf::Text& text, float centerX, float y);
 
 } // namespace ApplesGame

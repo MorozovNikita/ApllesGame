@@ -8,27 +8,27 @@ namespace ApplesGame
 	void Player::init(const sf::Texture& texture)
 	{
 		// init player state
-		position = { SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f };
-		speed = INITIAL_SPEED;
-		direction = PlayerDirection::Right;
+		m_position = { SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f };
+		m_speed = INITIAL_SPEED;
+		m_direction = PlayerDirection::Right;
 
 		// init player sprite
-		sprite.setTexture(texture);
-		setSpriteSize(sprite, PLAYER_SIZE, PLAYER_SIZE);
-		setSpriteRelativeOrigin(sprite, 0.5f, 0.5f);
-		sprite.setRotation(0.f);
+		m_sprite.setTexture(texture);
+		setSpriteSize(m_sprite, PLAYER_SIZE, PLAYER_SIZE);
+		setSpriteRelativeOrigin(m_sprite, 0.5f, 0.5f);
+		m_sprite.setRotation(0.f);
 	}
 
 	void Player::draw(sf::RenderWindow& window)
 	{
-		sprite.setPosition(position.x, position.y);
-		window.draw(sprite);
+		m_sprite.setPosition(m_position.x, m_position.y);
+		window.draw(m_sprite);
 	}
 
 	void Player::updateSprite(float dt)
 	{
 		float targetAngle = 0.f;
-		switch (direction)
+		switch (m_direction)
 		{
 		case PlayerDirection::Right: 
 			targetAngle = 0.f;   
@@ -45,7 +45,7 @@ namespace ApplesGame
 		}
 
 		// smooth rotation
-		float currentAngle = sprite.getRotation();
+		float currentAngle = m_sprite.getRotation();
 		float diff = targetAngle - currentAngle;
 
 		// angle normalization
@@ -60,7 +60,7 @@ namespace ApplesGame
 		else
 			currentAngle = targetAngle;
 
-		sprite.setRotation(currentAngle);
+		m_sprite.setRotation(currentAngle);
 	}
 
 } // namespace ApplesGame

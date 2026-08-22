@@ -12,9 +12,9 @@ namespace ApplesGame
 		void init(const sf::Texture& texture);
 		void draw(sf::RenderWindow& window);
 
-		bool isEaten{ false };
-		Position2D position;
-		sf::Sprite sprite;
+		bool m_isEaten{ false };
+		Position2D m_position;
+		sf::Sprite m_sprite;
 	};
 
 } // namespace ApplesGame

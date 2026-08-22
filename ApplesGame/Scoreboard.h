@@ -7,14 +7,13 @@ namespace ApplesGame
     class Scoreboard
     {
     public:
-        void init(const int& totalApples);
+        void init(const sf::Font& font, const int& totalApples);
         void update(int numEatenApples);
         void update(const int& numEatenApples, const int& totalApples);
         void draw(sf::RenderWindow& window);
 
     private:
-        sf::Font font;
-        sf::Text scoreText;
+        sf::Text m_scoreText;
     };
 
 } // namespace ApplesGame

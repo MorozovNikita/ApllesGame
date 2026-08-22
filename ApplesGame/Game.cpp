@@ -8,115 +8,118 @@ namespace ApplesGame
 
 	void Game::init()
 	{
-		assert(playerTexture.loadFromFile(RESOURCES_PATH + "\\Player.png"));
-		assert(appleTexture.loadFromFile(RESOURCES_PATH + "\\Apple.png"));
-		assert(barrierTexture.loadFromFile(RESOURCES_PATH + "\\Rock.png"));
-		assert(backgroundTexture.loadFromFile(RESOURCES_PATH + "\\Grass.png"));
+		assert(m_playerTexture.loadFromFile(RESOURCES_PATH + "\\Player.png"));
+		assert(m_appleTexture.loadFromFile(RESOURCES_PATH + "\\Apple.png"));
+		assert(m_barrierTexture.loadFromFile(RESOURCES_PATH + "\\Rock.png"));
+		assert(m_backgroundTexture.loadFromFile(RESOURCES_PATH + "\\Grass.png"));
 
-		assert(eatAppleSoundBuffer.loadFromFile(RESOURCES_PATH + "\\AppleEat.wav"));
-		assert(deathSoundBuffer.loadFromFile(RESOURCES_PATH + "\\Death.wav"));
-		assert(winSoundBuffer.loadFromFile(RESOURCES_PATH + "\\Win.wav"));
+		assert(m_eatAppleSoundBuffer.loadFromFile(RESOURCES_PATH + "\\AppleEat.wav"));
+		assert(m_deathSoundBuffer.loadFromFile(RESOURCES_PATH + "\\Death.wav"));
+		assert(m_winSoundBuffer.loadFromFile(RESOURCES_PATH + "\\Win.wav"));
 
-		eatAppleSound.setBuffer(eatAppleSoundBuffer);
-		deathSound.setBuffer(deathSoundBuffer);
-		winSound.setBuffer(winSoundBuffer);
+		assert(m_font.loadFromFile(RESOURCES_PATH + "\\Fonts\\PressStart2P-Regular.ttf"));
 
-		backgroundSprite.setTexture(backgroundTexture);
+		m_eatAppleSound.setBuffer(m_eatAppleSoundBuffer);
+		m_deathSound.setBuffer(m_deathSoundBuffer);
+		m_winSound.setBuffer(m_winSoundBuffer);
 
-		const auto textureSize = backgroundTexture.getSize();
+		m_backgroundSprite.setTexture(m_backgroundTexture);
+
+		const auto textureSize = m_backgroundTexture.getSize();
 		const float scaleX = SCREEN_WIDTH / static_cast<float>(textureSize.x);
 		const float scaleY = SCREEN_HEIGHT / static_cast<float>(textureSize.y);
-		backgroundSprite.setScale(scaleX, scaleY);
+		m_backgroundSprite.setScale(scaleX, scaleY);
 
-		menu.init();
+		m_menu.init(m_font);
+		m_nameInput.init(m_font);
 	}
 
 	void Game::update(const float& dt)
 	{
-		if (isPaused)
+		if (m_isPaused)
 		{
-			pauseTimeLeft -= dt;
+			m_pauseTimeLeft -= dt;
 
-			if (pauseTimeLeft <= 0.f)
-				isPaused = false;
+			if (m_pauseTimeLeft <= 0.f)
+				m_isPaused = false;
 		}
 		else
 		{
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 			{
-				player.direction = PlayerDirection::Right;
+				m_player.m_direction = PlayerDirection::Right;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 			{
-				player.direction = PlayerDirection::Up;
+				m_player.m_direction = PlayerDirection::Up;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			{
-				player.direction = PlayerDirection::Left;
+				m_player.m_direction = PlayerDirection::Left;
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 			{
-				player.direction = PlayerDirection::Down;
+				m_player.m_direction = PlayerDirection::Down;
 			}
 
-			switch (player.direction)
+			switch (m_player.m_direction)
 			{
 			case PlayerDirection::Right:
-				player.position.x += player.speed * dt;
+				m_player.m_position.x += m_player.m_speed * dt;
 				break;
 			case PlayerDirection::Up:
-				player.position.y -= player.speed * dt;
+				m_player.m_position.y -= m_player.m_speed * dt;
 				break;
 			case PlayerDirection::Left:
-				player.position.x -= player.speed * dt;
+				m_player.m_position.x -= m_player.m_speed * dt;
 				break;
 			case PlayerDirection::Down:
-				player.position.y += player.speed * dt;
+				m_player.m_position.y += m_player.m_speed * dt;
 				break;
 			default:
 				break;
 			}
 
-			player.updateSprite(dt);
+			m_player.updateSprite(dt);
 
-			if (player.position.x - PLAYER_SIZE / 2.f < 0.f || player.position.x + PLAYER_SIZE / 2.f > SCREEN_WIDTH
-				|| player.position.y - PLAYER_SIZE / 2.f < 0.f || player.position.y + PLAYER_SIZE / 2.f > SCREEN_HEIGHT)
+			if (m_player.m_position.x - PLAYER_SIZE / 2.f < 0.f || m_player.m_position.x + PLAYER_SIZE / 2.f > SCREEN_WIDTH
+				|| m_player.m_position.y - PLAYER_SIZE / 2.f < 0.f || m_player.m_position.y + PLAYER_SIZE / 2.f > SCREEN_HEIGHT)
 			{
 				restart();
 				return;
 			}
 
 			// find player collisions with apples
-			for (Apple& apple : apples)
+			for (Apple& apple : m_apples)
 			{
-				if (apple.isEaten)
+				if (apple.m_isEaten)
 					continue;
 
-				if (isCirclesCollide(player.position, PLAYER_SIZE / 2.f, apple.position, APPLE_SIZE / 2.f))
+				if (isCirclesCollide(m_player.m_position, PLAYER_SIZE / 2.f, apple.m_position, APPLE_SIZE / 2.f))
 				{
-					++numEatenApples;
+					++m_numEatenApples;
 
 					if (isWithAccelerationMode())
-						player.speed += ACCELERATION;
+						m_player.m_speed += ACCELERATION;
 
 					if (isInfiniteApplesMode())
 					{
-						apple.position = getRandomPosition(SCREEN_WIDTH, SCREEN_HEIGHT);
-						scoreboard.update(numEatenApples);
+						apple.m_position = getRandomPosition(SCREEN_WIDTH, SCREEN_HEIGHT);
+						m_scoreboard.update(m_numEatenApples);
 					}
 					else
 					{
 						// mark the apple as eaten so that don't have to process the collision
-						apple.isEaten = true;
-						apple.position = { -100.f, -100.f };
-						scoreboard.update(numEatenApples, currentApplesCount);
+						apple.m_isEaten = true;
+						apple.m_position = { -100.f, -100.f };
+						m_scoreboard.update(m_numEatenApples, m_currentApplesCount);
 					}
 
-					eatAppleSound.play();
+					m_eatAppleSound.play();
 				}
 			}
 
-			if (!isInfiniteApplesMode() && numEatenApples >= apples.size())
+			if (!isInfiniteApplesMode() && m_numEatenApples >= m_apples.size())
 			{
 				restart(true);
 				return;
@@ -125,7 +128,7 @@ namespace ApplesGame
 			// find player collisions with barriers
 			for (int i = 0; i < NUM_BARRIERS; ++i)
 			{
-				if (isRectanglesCollide(player.position, { PLAYER_SIZE, PLAYER_SIZE }, barriers[i].position, { BARRIER_SIZE, BARRIER_SIZE }))
+				if (isRectanglesCollide(m_player.m_position, { PLAYER_SIZE, PLAYER_SIZE }, m_barriers[i].m_position, { BARRIER_SIZE, BARRIER_SIZE }))
 				{
 					restart();
 					return;
@@ -136,68 +139,75 @@ namespace ApplesGame
 
 	void Game::draw(sf::RenderWindow& window)
 	{
-		window.draw(backgroundSprite);
+		window.draw(m_backgroundSprite);
 
-		player.draw(window);
+		m_player.draw(window);
 
-		for (auto& apple : apples)
+		for (auto& apple : m_apples)
 			apple.draw(window);
 
-		for (auto& barrier : barriers)
+		for (auto& barrier : m_barriers)
 			barrier.draw(window);
 
-		scoreboard.draw(window);
+		m_scoreboard.draw(window);
+	}
+
+	void Game::setWindow(const sf::RenderWindow& window)
+	{
+		m_window = const_cast<sf::RenderWindow*>(&window);
 	}
 
 	GameMode Game::selectMode(sf::RenderWindow& window)
 	{
-		currentMode = menu.run(window);
+		m_currentMode = m_menu.run(window);
 
-		if (currentMode != GameMode::None)
+		if (m_currentMode != GameMode::None)
 			resetState();
 
-		return currentMode;
+		return m_currentMode;
 	}
 
 	void Game::initApples()
 	{
-		apples.resize(currentApplesCount);
-		for (Apple& apple : apples)
-			apple.init(appleTexture);
+		m_apples.resize(m_currentApplesCount);
+		for (Apple& apple : m_apples)
+			apple.init(m_appleTexture);
 	}
 
 	void Game::initBarriers()
 	{
-		barriers.resize(NUM_BARRIERS);
-		for (Barrier& barrier : barriers)
-			barrier.init(barrierTexture);
+		m_barriers.resize(NUM_BARRIERS);
+		for (Barrier& barrier : m_barriers)
+			barrier.init(m_barrierTexture);
 	}
 
 	void Game::resetState()
 	{
 		randomizeApplesCount();
 
-		player.init(playerTexture);
+		m_player.init(m_playerTexture);
 		initApples();
 		initBarriers();
-		scoreboard.init((isInfiniteApplesMode() ? 0 : currentApplesCount));
+		m_scoreboard.init(m_font, (isInfiniteApplesMode() ? 0 : m_currentApplesCount));
 
-		numEatenApples = 0;
-		isPaused = false;
-		pauseTimeLeft = 0.f;
+		m_numEatenApples = 0;
+		m_isPaused = false;
+		m_pauseTimeLeft = 0.f;
 	}
 
 	void Game::restart(bool isWin)
 	{
 		if (isWin)
-			winSound.play();
+			m_winSound.play();
 		else
-			deathSound.play();
+			m_deathSound.play();
 			
+		m_nameInput.run(*m_window, m_numEatenApples);
+
 		resetState();
 
-		isPaused = true;
-		pauseTimeLeft = pauseTime;
+		m_isPaused = true;
+		m_pauseTimeLeft = m_pauseTime;
 	}
 
 	void Game::randomizeApplesCount()
@@ -218,17 +228,17 @@ namespace ApplesGame
 		}
 
 		std::uniform_int_distribution<int> dist(min, max);
-		currentApplesCount = dist(gen);
+		m_currentApplesCount = dist(gen);
 	}
 
 	bool Game::isInfiniteApplesMode() const
 	{
-		return hasFlag(currentMode, GameMode::InfiniteApples);
+		return hasFlag(m_currentMode, GameMode::InfiniteApples);
 	}
 
 	bool Game::isWithAccelerationMode() const
 	{
-		return hasFlag(currentMode, GameMode::WithAcceleration);
+		return hasFlag(m_currentMode, GameMode::WithAcceleration);
 	}
 
 } // namespace ApplesGame

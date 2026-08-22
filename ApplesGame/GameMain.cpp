@@ -19,6 +19,7 @@ int main()
 	// game initialization
 	ApplesGame::Game game;
 	game.init();
+	game.setWindow(window);
 
 	// select mode
 	GameMode selectedMode = game.selectMode(window);

@@ -6,58 +6,58 @@
 
 namespace ApplesGame
 {
-    void Menu::init()
+    void Menu::init(const sf::Font& font)
     {
-        assert(font.loadFromFile(RESOURCES_PATH + "\\Fonts\\PressStart2P-Regular.ttf"));
+        m_font = &font;
 
-        items = { { "1. Finite Apples + With Acceleration",GameMode::FiniteApples | GameMode::WithAcceleration },
+        m_items = { { "1. Finite Apples + With Acceleration",GameMode::FiniteApples | GameMode::WithAcceleration },
                   { "2. Finite Apples + Without Acceleration", GameMode::FiniteApples | GameMode::WithoutAcceleration },
                   { "3. Infinite Apples + With Acceleration", GameMode::InfiniteApples | GameMode::WithAcceleration },
                   { "4. Infinite Apples + Without Acceleration", GameMode::InfiniteApples | GameMode::WithoutAcceleration },
                 };
 
-        selectedIndex = 0;
+        m_selectedIndex = 0;
 
-        titleText.setString("SELECT GAME MODE");
-        titleText.setFont(font);
-        titleText.setCharacterSize(TITLE_SIZE);
-        titleText.setFillColor(titleColor);
-        titleText.setPosition(SCREEN_WIDTH / 2.f, MARGIN_TOP);
+        m_titleText.setString("SELECT GAME MODE");
+        m_titleText.setFont(*m_font);
+        m_titleText.setCharacterSize(MENU_TITLE_SIZE);
+        m_titleText.setFillColor(titleColor);
+        m_titleText.setPosition(SCREEN_WIDTH / 2.f, MENU_MARGIN_TOP);
 
-        sf::FloatRect titleBounds = titleText.getGlobalBounds();
-        titleText.move(SCREEN_WIDTH / 2.f - (titleBounds.left + titleBounds.width / 2.f), 0.f);
+        sf::FloatRect titleBounds = m_titleText.getGlobalBounds();
+        m_titleText.move(SCREEN_WIDTH / 2.f - (titleBounds.left + titleBounds.width / 2.f), 0.f);
 
         const float centerX = SCREEN_WIDTH / 2.f;
-        const float startY = MARGIN_TOP + 120.f;
+        const float startY = MENU_MARGIN_TOP + 120.f;
 
-        itemTexts.clear();
-        for (int i = 0; i < static_cast<int>(items.size()); ++i)
+        m_itemTexts.clear();
+        for (int i = 0; i < static_cast<int>(m_items.size()); ++i)
         {
-            sf::Text text(items[i].text, font, ITEM_SIZE);
+            sf::Text text(m_items[i].text, *m_font, MENU_ITEM_SIZE);
 
-            float textY = startY + i * SPACING;
+            float textY = startY + i * MENU_SPACING;
             text.setPosition(centerX, textY);
 
             sf::FloatRect bounds = text.getGlobalBounds();
             text.move(centerX - (bounds.left + bounds.width / 2.f),
                 textY - (bounds.top + bounds.height / 2.f));
 
-            itemTexts.push_back(text);
+            m_itemTexts.push_back(text);
         }
 
-        arrowIndicator.setPrimitiveType(sf::Triangles);
-        arrowIndicator.resize(3);
+        m_arrowIndicator.setPrimitiveType(sf::Triangles);
+        m_arrowIndicator.resize(3);
         for (int v = 0; v < 3; ++v)
-            arrowIndicator[v].color = sf::Color::Yellow;
+            m_arrowIndicator[v].color = sf::Color::Yellow;
 
-        hintText.setString(L"Use \u2191 \u2193 to navigate, Enter to select, Esc to exit");
-        hintText.setFont(font);
-        hintText.setCharacterSize(10);
-        hintText.setFillColor(hintColor);
-        hintText.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT - 40.f);
+        m_hintText.setString(L"Use \u2191 \u2193 to navigate, Enter to select, Esc to exit");
+        m_hintText.setFont(*m_font);
+        m_hintText.setCharacterSize(10);
+        m_hintText.setFillColor(hintColor);
+        m_hintText.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT - 40.f);
 
-        sf::FloatRect hintBounds = hintText.getGlobalBounds();
-        hintText.move(SCREEN_WIDTH / 2.f - (hintBounds.left + hintBounds.width / 2.f), 0.f);
+        sf::FloatRect hintBounds = m_hintText.getGlobalBounds();
+        m_hintText.move(SCREEN_WIDTH / 2.f - (hintBounds.left + hintBounds.width / 2.f), 0.f);
 
         updateTexts();
     }
@@ -84,7 +84,7 @@ namespace ApplesGame
                 {
                     if (event.key.code == sf::Keyboard::Enter)
                     {
-                        selectedMode = items[selectedIndex].mode;
+                        selectedMode = m_items[m_selectedIndex].mode;
                         running = false;
                     }
                     else if (event.key.code == sf::Keyboard::Escape)
@@ -96,9 +96,9 @@ namespace ApplesGame
                         event.key.code <= sf::Keyboard::Num4)
                     {
                         int index = event.key.code - sf::Keyboard::Num1;
-                        if (index >= 0 && index < static_cast<int>(items.size()))
+                        if (index >= 0 && index < static_cast<int>(m_items.size()))
                         {
-                            selectedMode = items[index].mode;
+                            selectedMode = m_items[index].mode;
                             running = false;
                         }
                     }
@@ -117,15 +117,15 @@ namespace ApplesGame
         {
             if (event.key.code == sf::Keyboard::Up)
             {
-                --selectedIndex;
-                if (selectedIndex < 0)
-                    selectedIndex = static_cast<int>(items.size()) - 1;
+                --m_selectedIndex;
+                if (m_selectedIndex < 0)
+                    m_selectedIndex = static_cast<int>(m_items.size()) - 1;
             }
             else if (event.key.code == sf::Keyboard::Down)
             {
-                ++selectedIndex;
-                if (selectedIndex >= static_cast<int>(items.size()))
-                    selectedIndex = 0;
+                ++m_selectedIndex;
+                if (m_selectedIndex >= static_cast<int>(m_items.size()))
+                    m_selectedIndex = 0;
             }
 
             updateTexts();
@@ -134,10 +134,10 @@ namespace ApplesGame
 
     void Menu::updateTexts()
     {
-        for (int i = 0; i < static_cast<int>(itemTexts.size()); ++i)
+        for (int i = 0; i < static_cast<int>(m_itemTexts.size()); ++i)
         {
-            bool isSelected = (i == selectedIndex);
-            itemTexts[i].setFillColor(isSelected ? selectedColor : normalColor);
+            bool isSelected = (i == m_selectedIndex);
+            m_itemTexts[i].setFillColor(isSelected ? selectedColor : textColor);
         }
     }
 
@@ -145,24 +145,24 @@ namespace ApplesGame
     {
         window.clear(backgroundColor);
 
-        window.draw(titleText);
+        window.draw(m_titleText);
 
-        for (const auto& text : itemTexts)
+        for (const auto& text : m_itemTexts)
             window.draw(text);
 
-        const auto& selectedText = itemTexts[selectedIndex];
+        const auto& selectedText = m_itemTexts[m_selectedIndex];
         sf::FloatRect bounds = selectedText.getGlobalBounds();
 
-        float arrowX = bounds.left - ARROW_SIZE - ARROW_GAP;
-        float arrowY = bounds.top + bounds.height / 2.f - ARROW_SIZE / 2.f;
+        float arrowX = bounds.left - MENU_ARROW_SIZE - MENU_ARROW_GAP;
+        float arrowY = bounds.top + bounds.height / 2.f - MENU_ARROW_SIZE / 2.f;
 
-        arrowIndicator[0].position = sf::Vector2f(arrowX, arrowY);
-        arrowIndicator[1].position = sf::Vector2f(arrowX, arrowY + ARROW_SIZE);
-        arrowIndicator[2].position = sf::Vector2f(arrowX + ARROW_SIZE, arrowY + ARROW_SIZE / 2.f);
+        m_arrowIndicator[0].position = sf::Vector2f(arrowX, arrowY);
+        m_arrowIndicator[1].position = sf::Vector2f(arrowX, arrowY + MENU_ARROW_SIZE);
+        m_arrowIndicator[2].position = sf::Vector2f(arrowX + MENU_ARROW_SIZE, arrowY + MENU_ARROW_SIZE / 2.f);
 
-        window.draw(arrowIndicator);
+        window.draw(m_arrowIndicator);
 
-        window.draw(hintText);
+        window.draw(m_hintText);
 
         window.display();
     }

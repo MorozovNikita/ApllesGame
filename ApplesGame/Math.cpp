@@ -1,6 +1,7 @@
 #include "Math.h"
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Text.hpp>
 
 #include <cmath>
 
@@ -70,6 +71,12 @@ namespace ApplesGame
 	{
 		sf::FloatRect spriteRect = sprite.getLocalBounds();
 		sprite.setOrigin(originX * spriteRect.width, originY * spriteRect.height);
+	}
+
+	void centerTextHorizontally(sf::Text& text, float centerX, float y)
+	{
+		sf::FloatRect bounds = text.getLocalBounds();
+		text.setPosition(centerX - (bounds.left + bounds.width / 2.f), y - (bounds.top + bounds.height / 2.f));
 	}
 
 } // namespace ApplesGame

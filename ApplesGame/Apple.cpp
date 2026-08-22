@@ -7,19 +7,19 @@ namespace ApplesGame
 
 	void Apple::init(const sf::Texture& texture)
 	{
-		isEaten = false;
+		m_isEaten = false;
 
-		position = getRandomPosition(SCREEN_WIDTH, SCREEN_HEIGHT);
+		m_position = getRandomPosition(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-		sprite.setTexture(texture);
-		setSpriteSize(sprite, APPLE_SIZE, APPLE_SIZE);
-		setSpriteRelativeOrigin(sprite, 0.5f, 0.5f);
+		m_sprite.setTexture(texture);
+		setSpriteSize(m_sprite, APPLE_SIZE, APPLE_SIZE);
+		setSpriteRelativeOrigin(m_sprite, 0.5f, 0.5f);
 	}
 
 	void Apple::draw(sf::RenderWindow& window)
 	{
-		sprite.setPosition(position.x, position.y);
-		window.draw(sprite);
+		m_sprite.setPosition(m_position.x, m_position.y);
+		window.draw(m_sprite);
 	}
 
 } // namespace ApplesGame
