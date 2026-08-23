@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+
 #include <string>
 
 namespace ApplesGame
@@ -42,6 +44,22 @@ namespace ApplesGame
 	const int NAME_INPUT_TEXT_SIZE		 = 20;
 	const int NAME_INPUT_MAX_NAME_LENGTH = 15;
 	const std::string DEFAULT_NAME		 = "noname"s;
+
+	// leaderBoard
+	const int LD_TITLE_SIZE				 = 28;
+	const int LD_HINT_SIZE				 = 14;
+	const int LD_ENTRY_SIZE				 = 18;
+	const int LD_EMPTY_SIZE				 = 20;
+	
+	const float LD_TITLE_Y				 = 60.f;
+	const float LD_START_Y				 = 140.f;
+	const float LD_ROW_SPACING			 = 40.f;
+	const float LD_RANK_X				 = 100.f;
+	const float LD_NAME_X				 = 200.f;
+	const float LD_SCORE_X				 = 500.f;
+	const float LD_HINT_Y_OFFSET		 = 50.f;
+
+	const size_t MAX_RECORDS			 = 10;
 
 	//
 	const sf::Color textColor(255, 255, 255);

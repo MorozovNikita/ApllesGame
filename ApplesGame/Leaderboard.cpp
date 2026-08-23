@@ -1,17 +1,41 @@
 #include "Leaderboard.h"
 
+#include "Constants.h"
+
 namespace ApplesGame
 {
     void Leaderboard::generate(int count)
     {
-        m_entries.clear();
+        m_records.clear();
 
-        for (int i{ 0 }; i < count; ++i)
-            m_entries.push_back({ "Test", 120 });
+        for (int i{ 0 }; i < std::min(count, 10); ++i)
+            m_records.insert({ "Test"s + std::to_string(i), 10 * i});
     }
 
-    const std::vector<Record>& Leaderboard::getRecords() const
+    const std::set<Record>& Leaderboard::getRecords() const
     {
-        return m_entries;
+        return m_records;
+    }
+
+    int Leaderboard::getScoreMinValue() const
+    {
+        return m_records.crbegin()->score;
+    }
+
+    void Leaderboard::insertNewRecord(Record record)
+    {
+        m_records.insert(record);
+
+        while (m_records.size() > MAX_RECORDS)
+        {
+            m_records.erase(std::prev(m_records.end()));
+        }
+    }
+
+    bool Record::operator<(const Record& other) const
+    {
+        if (score != other.score)
+            return score > other.score;
+        return name < other.name;
     }
 }

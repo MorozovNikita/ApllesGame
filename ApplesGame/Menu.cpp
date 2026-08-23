@@ -9,7 +9,7 @@ namespace ApplesGame
     void Menu::init(const sf::Font& font)
     {
         m_font = &font;
-        m_leaderboard.init(font);
+        m_leaderBoardScreen.init(font);
 
         m_items = { { "1. Finite Apples + With Acceleration",GameMode::FiniteApples | GameMode::WithAcceleration },
                   { "2. Finite Apples + Without Acceleration", GameMode::FiniteApples | GameMode::WithoutAcceleration },
@@ -88,7 +88,7 @@ namespace ApplesGame
                     {
                         if (m_selectedIndex == LEADERBOARD_INDEX)
                         {
-                            m_leaderboard.run(window);
+                            m_leaderBoardScreen.run(window);
                             continue;
                         }
 
@@ -117,6 +117,16 @@ namespace ApplesGame
         }
 
         return selectedMode;
+    }
+
+    int Menu::getScoreMinValue() const
+    {
+        return m_leaderBoardScreen.getScoreMinValue();
+    }
+
+    void Menu::insertToLeaderBoard(Record record)
+    {
+        m_leaderBoardScreen.insertNewRecord(record);
     }
 
     void Menu::handleInput(const sf::Event& event)

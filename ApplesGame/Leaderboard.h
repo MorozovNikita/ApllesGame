@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <set>
 
 namespace ApplesGame
 {
@@ -9,15 +10,20 @@ namespace ApplesGame
     {
         std::string name;
         int score;
+
+        bool operator<(const Record& other) const;
     };
 
     class Leaderboard
     {
     public:
         void generate(int npcCount);
-        const std::vector<Record>& getRecords() const;
+        const std::set<Record>& getRecords() const;
+
+        int getScoreMinValue() const;
+        void insertNewRecord(Record record);
 
     private:
-        std::vector<Record> m_entries;
+        std::set<Record> m_records;
     };
 }

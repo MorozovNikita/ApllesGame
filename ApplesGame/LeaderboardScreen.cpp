@@ -9,19 +9,15 @@ namespace ApplesGame
     {
         m_font = &font;
 
-        m_titleText.setFont(*m_font);
-        m_titleText.setCharacterSize(28);
-        m_titleText.setFillColor(titleColor);
+        m_titleText = createText(*m_font, LD_TITLE_SIZE, titleColor);
         m_titleText.setString("HIGH SCORES");
-        centerTextHorizontally(m_titleText, SCREEN_WIDTH / 2.f, 60.f);
+        centerTextHorizontally(m_titleText, SCREEN_WIDTH / 2.f, LD_TITLE_Y);
 
-        m_hintText.setFont(*m_font);
-        m_hintText.setCharacterSize(14);
-        m_hintText.setFillColor(hintColor);
+        m_hintText = createText(*m_font, LD_HINT_SIZE, hintColor);
         m_hintText.setString("ESC or ENTER - back to menu");
-        centerTextHorizontally(m_hintText, SCREEN_WIDTH / 2.f, SCREEN_HEIGHT - 50.f);
+        centerTextHorizontally(m_hintText, SCREEN_WIDTH / 2.f, SCREEN_HEIGHT - LD_HINT_Y_OFFSET);
 
-        m_leaderboard.generate(9);
+        m_leaderboard.generate(15);
     }
 
     void LeaderboardScreen::run(sf::RenderWindow& window)
@@ -37,9 +33,8 @@ namespace ApplesGame
                     return;
                 }
 
-                if (event.type == sf::Event::KeyPressed &&
-                    (event.key.code == sf::Keyboard::Escape ||
-                        event.key.code == sf::Keyboard::Enter))
+                if (event.type == sf::Event::KeyPressed 
+                    && (event.key.code == sf::Keyboard::Escape || event.key.code == sf::Keyboard::Enter))
                 {
                     return;
                 }
@@ -49,46 +44,67 @@ namespace ApplesGame
         }
     }
 
+    int LeaderboardScreen::getScoreMinValue() const
+    {
+        return m_leaderboard.getScoreMinValue();
+    }
+
+    void LeaderboardScreen::insertNewRecord(Record record)
+    {
+        m_leaderboard.insertNewRecord(record);
+    }
+
     void LeaderboardScreen::draw(sf::RenderWindow& window)
     {
         window.clear(backgroundColor);
 
         window.draw(m_titleText);
 
-        const auto& entries = m_leaderboard.getRecords();
-        const float startY = 140.f;
-        const float rowSpacing = 40.f;
+        const auto& records = m_leaderboard.getRecords();
 
-        for (size_t i = 0; i < entries.size(); ++i)
+        if (records.empty())
         {
-            const auto& entry = entries[i];
-            const float y = startY + i * rowSpacing;
-
-            sf::Text rank(std::to_string(i + 1) + ".", *m_font, 18);
-            rank.setFillColor(textColor);
-            rank.setPosition(100.f, y);
-            window.draw(rank);
-
-            sf::Text name(entry.name, *m_font, 18);
-            name.setFillColor(textColor);
-            name.setPosition(200.f, y);
-            window.draw(name);
-
-            sf::Text score(std::to_string(entry.score), *m_font, 18);
-            score.setFillColor(textColor);
-            score.setPosition(500.f, y);
-            window.draw(score);
-        }
-
-        if (entries.empty())
-        {
-            sf::Text empty("Leaderboard is empty", *m_font, 20);
-            empty.setFillColor(hintColor);
+            sf::Text empty = createText(*m_font, LD_EMPTY_SIZE, hintColor);
+            empty.setString("Leaderboard is empty"s);
             centerTextHorizontally(empty, SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f);
             window.draw(empty);
+        }
+        else
+        {
+            int i{ 0 };
+            for (const Record& record : records)
+            {
+                const auto& entry = records;
+                const float y = LD_START_Y + i++ * LD_ROW_SPACING;
+                const std::string rankStr = std::to_string(i) + ".";
+
+                sf::Text rank = createText(*m_font, LD_ENTRY_SIZE, textColor);
+                rank.setString(rankStr);
+                rank.setPosition(LD_RANK_X, y);
+                window.draw(rank);
+
+                sf::Text name = createText(*m_font, LD_ENTRY_SIZE, textColor);
+                name.setString(record.name);
+                name.setPosition(LD_NAME_X, y);
+                window.draw(name);
+
+                sf::Text score = createText(*m_font, LD_ENTRY_SIZE, textColor);
+                score.setString(std::to_string(record.score));
+                score.setPosition(LD_SCORE_X, y);
+                window.draw(score);
+            }
         }
 
         window.draw(m_hintText);
         window.display();
+    }
+
+    sf::Text LeaderboardScreen::createText(const sf::Font& font, int size, sf::Color color)
+    {
+        sf::Text text;
+        text.setFont(font);
+        text.setCharacterSize(size);
+        text.setFillColor(color);
+        return text;
     }
 }

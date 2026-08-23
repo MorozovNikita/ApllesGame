@@ -23,6 +23,9 @@ namespace ApplesGame
         void init(const sf::Font& font);
         GameMode run(sf::RenderWindow& window);
 
+        int getScoreMinValue() const;
+        void insertToLeaderBoard(Record record);
+
     private:
         void draw(sf::RenderWindow& window);
         void handleInput(const sf::Event& event);
@@ -32,7 +35,7 @@ namespace ApplesGame
         std::vector<MenuItem> m_items;
         int m_selectedIndex{ 0 };
 
-        LeaderboardScreen m_leaderboard;
+        LeaderboardScreen m_leaderBoardScreen;
 
         std::vector<sf::Text> m_itemTexts;
         sf::Text m_titleText;

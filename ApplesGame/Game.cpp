@@ -207,7 +207,11 @@ namespace ApplesGame
 		else
 			m_deathSound.play();
 			
-		m_nameInput.run(*m_window, m_numEatenApples);
+		if (m_menu.getScoreMinValue() < m_numEatenApples)
+		{
+			auto name = m_nameInput.run(*m_window, m_numEatenApples);
+			m_menu.insertToLeaderBoard({name, m_numEatenApples});
+		}
 
 		resetState();
 
