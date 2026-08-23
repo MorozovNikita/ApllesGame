@@ -16,10 +16,11 @@ int main()
 	// init window
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Apples game!");
 
+	// gameResources initialization
+	GameResources gameResources;
+
 	// game initialization
-	ApplesGame::Game game;
-	game.init();
-	game.setWindow(window);
+	ApplesGame::Game game(window, gameResources);
 
 	// select mode
 	GameMode selectedMode = game.selectMode(window);

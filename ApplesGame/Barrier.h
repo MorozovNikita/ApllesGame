@@ -9,7 +9,9 @@ namespace ApplesGame
 
 	struct Barrier
 	{
-		void init(const sf::Texture& texture);
+		Barrier(const sf::Texture& texture);
+		~Barrier() = default;
+
 		void draw(sf::RenderWindow& window);
 
 		Position2D m_position;

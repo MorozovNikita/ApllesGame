@@ -6,13 +6,15 @@
 
 namespace ApplesGame
 {
-    void Menu::init(const sf::Font& font, Leaderboard& leaderBoard)
+    Menu::Menu(Leaderboard& leaderBoard, const sf::Font& font)
+        : m_leaderBoardScreen(leaderBoard, font)
+        , m_font(font)
     {
-        m_font = &font;
-        m_leaderBoardScreen.init(font);
+        init();
+    }
 
-        m_leaderBoardScreen.setLeaderBoard(leaderBoard);
-
+    void Menu::init()
+    {
         m_items = { { "1. Finite Apples + With Acceleration",GameMode::FiniteApples | GameMode::WithAcceleration },
                   { "2. Finite Apples + Without Acceleration", GameMode::FiniteApples | GameMode::WithoutAcceleration },
                   { "3. Infinite Apples + With Acceleration", GameMode::InfiniteApples | GameMode::WithAcceleration },
@@ -23,7 +25,7 @@ namespace ApplesGame
         m_selectedIndex = 0;
 
         m_titleText.setString("SELECT GAME MODE");
-        m_titleText.setFont(*m_font);
+        m_titleText.setFont(m_font);
         m_titleText.setCharacterSize(MENU_TITLE_SIZE);
         m_titleText.setFillColor(titleColor);
         m_titleText.setPosition(SCREEN_WIDTH / 2.f, MENU_MARGIN_TOP);
@@ -37,7 +39,7 @@ namespace ApplesGame
         m_itemTexts.clear();
         for (int i = 0; i < static_cast<int>(m_items.size()); ++i)
         {
-            sf::Text text(m_items[i].text, *m_font, MENU_ITEM_SIZE);
+            sf::Text text(m_items[i].text, m_font, MENU_ITEM_SIZE);
 
             float textY = startY + i * MENU_SPACING;
             text.setPosition(centerX, textY);
@@ -55,7 +57,7 @@ namespace ApplesGame
             m_arrowIndicator[v].color = sf::Color::Yellow;
 
         m_hintText.setString(L"Use \u2191 \u2193 to navigate, Enter to select, Esc to exit");
-        m_hintText.setFont(*m_font);
+        m_hintText.setFont(m_font);
         m_hintText.setCharacterSize(10);
         m_hintText.setFillColor(hintColor);
         m_hintText.setPosition(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT - 40.f);

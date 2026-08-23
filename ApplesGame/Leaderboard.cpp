@@ -4,12 +4,10 @@
 
 namespace ApplesGame
 {
-    void Leaderboard::generate(int count)
+    Leaderboard::Leaderboard(int size)
     {
-        m_records.clear();
-
-        for (int i{ 0 }; i < std::min(count, MAX_RECORDS); ++i)
-            m_records.insert({ "Test"s + std::to_string(i), 10 * i});
+        for (int i{ 0 }; i < std::min(size, MAX_RECORDS); ++i)
+            m_records.insert({ "Test"s + std::to_string(i), 10 * i });
     }
 
     const std::set<Record>& Leaderboard::getRecords() const

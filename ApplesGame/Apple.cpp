@@ -5,7 +5,7 @@
 namespace ApplesGame
 {
 
-	void Apple::init(const sf::Texture& texture)
+	Apple::Apple(const sf::Texture& texture)
 	{
 		m_isEaten = false;
 

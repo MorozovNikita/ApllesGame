@@ -5,36 +5,18 @@
 
 namespace ApplesGame
 {
-
-	void Game::init()
+	Game::Game(sf::RenderWindow& window, GameResources& resources)
+		: m_window(window)
+		, m_resources(resources)
+		, m_leaderBoard(10)
+		, m_menu(m_leaderBoard, m_resources.m_font)
+		, m_nameInput(m_resources.m_font)
+		, m_scoreboard(m_resources.m_font)
 	{
-		assert(m_playerTexture.loadFromFile(RESOURCES_PATH + "\\Player.png"));
-		assert(m_appleTexture.loadFromFile(RESOURCES_PATH + "\\Apple.png"));
-		assert(m_barrierTexture.loadFromFile(RESOURCES_PATH + "\\Rock.png"));
-		assert(m_backgroundTexture.loadFromFile(RESOURCES_PATH + "\\Grass.png"));
-
-		assert(m_eatAppleSoundBuffer.loadFromFile(RESOURCES_PATH + "\\AppleEat.wav"));
-		assert(m_deathSoundBuffer.loadFromFile(RESOURCES_PATH + "\\Death.wav"));
-		assert(m_winSoundBuffer.loadFromFile(RESOURCES_PATH + "\\Win.wav"));
-
-		assert(m_font.loadFromFile(RESOURCES_PATH + "\\Fonts\\PressStart2P-Regular.ttf"));
-
-		m_eatAppleSound.setBuffer(m_eatAppleSoundBuffer);
-		m_deathSound.setBuffer(m_deathSoundBuffer);
-		m_winSound.setBuffer(m_winSoundBuffer);
-
-		m_backgroundSprite.setTexture(m_backgroundTexture);
-
-		const auto textureSize = m_backgroundTexture.getSize();
+		const auto textureSize = m_resources.m_backgroundTexture.getSize();
 		const float scaleX = SCREEN_WIDTH / static_cast<float>(textureSize.x);
 		const float scaleY = SCREEN_HEIGHT / static_cast<float>(textureSize.y);
-		m_backgroundSprite.setScale(scaleX, scaleY);
-
-		// tmp
-		m_leaderBoard.generate(15);
-
-		m_menu.init(m_font, m_leaderBoard);
-		m_nameInput.init(m_font);
+		m_resources.m_backgroundSprite.setScale(scaleX, scaleY);
 	}
 
 	void Game::update(const float& dt)
@@ -118,7 +100,7 @@ namespace ApplesGame
 						m_scoreboard.update(m_numEatenApples, m_currentApplesCount);
 					}
 
-					m_eatAppleSound.play();
+					m_resources.m_eatAppleSound.play();
 				}
 			}
 
@@ -142,7 +124,7 @@ namespace ApplesGame
 
 	void Game::draw(sf::RenderWindow& window)
 	{
-		window.draw(m_backgroundSprite);
+		window.draw(m_resources.m_backgroundSprite);
 
 		m_player.draw(window);
 
@@ -153,11 +135,6 @@ namespace ApplesGame
 			barrier.draw(window);
 
 		m_scoreboard.draw(window);
-	}
-
-	void Game::setWindow(const sf::RenderWindow& window)
-	{
-		m_window = const_cast<sf::RenderWindow*>(&window);
 	}
 
 	GameMode Game::selectMode(sf::RenderWindow& window)
@@ -177,26 +154,28 @@ namespace ApplesGame
 
 	void Game::initApples()
 	{
-		m_apples.resize(m_currentApplesCount);
-		for (Apple& apple : m_apples)
-			apple.init(m_appleTexture);
+		m_apples.clear();
+		m_apples.reserve(m_currentApplesCount);
+		for (int i = 0; i < m_currentApplesCount; ++i)
+			m_apples.emplace_back(m_resources.m_appleTexture);
 	}
 
 	void Game::initBarriers()
 	{
-		m_barriers.resize(NUM_BARRIERS);
-		for (Barrier& barrier : m_barriers)
-			barrier.init(m_barrierTexture);
+		m_barriers.clear();
+		m_barriers.reserve(NUM_BARRIERS);
+		for (int i = 0; i < NUM_BARRIERS; ++i)
+			m_barriers.emplace_back(m_resources.m_barrierTexture);
 	}
 
 	void Game::resetState()
 	{
 		randomizeApplesCount();
 
-		m_player.init(m_playerTexture);
+		m_player.init(m_resources.m_playerTexture);
 		initApples();
 		initBarriers();
-		m_scoreboard.init(m_font, (isInfiniteApplesMode() ? 0 : m_currentApplesCount));
+		m_scoreboard.reset((isInfiniteApplesMode() ? 0 : m_currentApplesCount));
 
 		m_numEatenApples = 0;
 		m_isPaused = false;
@@ -206,13 +185,13 @@ namespace ApplesGame
 	void Game::restart(bool isWin)
 	{
 		if (isWin)
-			m_winSound.play();
+			m_resources.m_winSound.play();
 		else
-			m_deathSound.play();
+			m_resources.m_deathSound.play();
 			
 		if (m_leaderBoard.getScoreMinValue() < m_numEatenApples)
 		{
-			auto name = m_nameInput.run(*m_window, m_numEatenApples);
+			auto name = m_nameInput.run(m_window, m_numEatenApples);
 			m_leaderBoard.insertNewRecord({name, m_numEatenApples});
 		}
 
@@ -251,6 +230,26 @@ namespace ApplesGame
 	bool Game::isWithAccelerationMode() const
 	{
 		return hasFlag(m_currentMode, GameMode::WithAcceleration);
+	}
+
+	GameResources::GameResources()
+	{
+		assert(m_playerTexture.loadFromFile(RESOURCES_PATH + "\\Player.png"));
+		assert(m_appleTexture.loadFromFile(RESOURCES_PATH + "\\Apple.png"));
+		assert(m_barrierTexture.loadFromFile(RESOURCES_PATH + "\\Rock.png"));
+		assert(m_backgroundTexture.loadFromFile(RESOURCES_PATH + "\\Grass.png"));
+
+		assert(m_eatAppleSoundBuffer.loadFromFile(RESOURCES_PATH + "\\AppleEat.wav"));
+		assert(m_deathSoundBuffer.loadFromFile(RESOURCES_PATH + "\\Death.wav"));
+		assert(m_winSoundBuffer.loadFromFile(RESOURCES_PATH + "\\Win.wav"));
+
+		assert(m_font.loadFromFile(RESOURCES_PATH + "\\Fonts\\PressStart2P-Regular.ttf"));
+
+		m_eatAppleSound.setBuffer(m_eatAppleSoundBuffer);
+		m_deathSound.setBuffer(m_deathSoundBuffer);
+		m_winSound.setBuffer(m_winSoundBuffer);
+
+		m_backgroundSprite.setTexture(m_backgroundTexture);
 	}
 
 } // namespace ApplesGame

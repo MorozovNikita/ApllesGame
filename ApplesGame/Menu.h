@@ -20,7 +20,10 @@ namespace ApplesGame
     class Menu
     {
     public:
-        void init(const sf::Font& font, Leaderboard& leaderBoard);
+        Menu(Leaderboard& leaderBoard, const sf::Font& font);
+        ~Menu() = default;
+
+        void init();
         GameMode run(sf::RenderWindow& window);
 
     private:
@@ -28,7 +31,8 @@ namespace ApplesGame
         void handleInput(const sf::Event& event);
         void updateTexts();
 
-        const sf::Font* m_font{ nullptr };
+        const sf::Font& m_font;
+
         std::vector<MenuItem> m_items;
         int m_selectedIndex{ 0 };
 

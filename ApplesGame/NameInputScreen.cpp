@@ -5,39 +5,42 @@
 
 namespace ApplesGame
 {
-    void NameInputScreen::init(const sf::Font& font)
+    NameInputScreen::NameInputScreen(const sf::Font& font)
+        : m_font(font)
     {
-        m_font = &font;
-        m_playerName.clear();
+        init();
+    }
 
+    void NameInputScreen::init()
+    {
         const float centerX = SCREEN_WIDTH / 2.f;
 
         // header
-        m_titleText.setFont(*m_font);
+        m_titleText.setFont(m_font);
         m_titleText.setCharacterSize(NAME_INPUT_TITLE_SIZE);
         m_titleText.setFillColor(titleColor);
         m_titleText.setString("GAME OVER"s);
         centerTextHorizontally(m_titleText, centerX, 100.f);
 
         // score
-        m_scoreText.setFont(*m_font);
+        m_scoreText.setFont(m_font);
         m_scoreText.setCharacterSize(NAME_INPUT_TEXT_SIZE);
         m_scoreText.setFillColor(textColor);
 
         // label
-        m_labelText.setFont(*m_font);
+        m_labelText.setFont(m_font);
         m_labelText.setCharacterSize(NAME_INPUT_TEXT_SIZE);
         m_labelText.setFillColor(textColor);
         m_labelText.setString("Enter your name:"s);
         centerTextHorizontally(m_labelText, centerX, 300.f);
 
         // name
-        m_nameText.setFont(*m_font);
+        m_nameText.setFont(m_font);
         m_nameText.setCharacterSize(NAME_INPUT_TEXT_SIZE);
         m_nameText.setFillColor(sf::Color::Yellow);
 
         // hint
-        m_hintText.setFont(*m_font);
+        m_hintText.setFont(m_font);
         m_hintText.setCharacterSize(14);
         m_hintText.setFillColor(hintColor);
         m_hintText.setString("ENTER - confirm, ESC - skip"s);

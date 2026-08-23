@@ -11,41 +11,11 @@
 
 namespace ApplesGame
 {
-
-	class Game
+	struct GameResources
 	{
-	public:
-		void init();
-		void update(const float& dt);
-		void draw(sf::RenderWindow& window);
-		void setWindow(const sf::RenderWindow& window);
+		GameResources();
+		~GameResources() = default;
 
-		GameMode selectMode(sf::RenderWindow& window);
-
-	private:
-		Player m_player;
-
-		std::vector<Apple> m_apples;
-		std::vector<Barrier> m_barriers;
-
-		sf::RenderWindow* m_window{ nullptr };
-
-		Menu m_menu;
-		Scoreboard m_scoreboard;
-		NameInputScreen m_nameInput;
-
-		Leaderboard m_leaderBoard;
-
-		// global game data
-		int m_numEatenApples{ 0 };
-		int m_currentApplesCount{ 0 };
-		bool m_isPaused{ false };
-		float m_pauseTime{ PAUSE_TIME };
-		float m_pauseTimeLeft{ 0.f };
-
-		GameMode m_currentMode{ GameMode::None };
-
-		// resources
 		sf::Texture m_playerTexture;
 		sf::Texture m_appleTexture;
 		sf::Texture m_barrierTexture;
@@ -62,6 +32,45 @@ namespace ApplesGame
 		sf::Sprite m_backgroundSprite;
 
 		sf::Font m_font;
+	};
+
+	class Game
+	{
+	public:
+		Game(sf::RenderWindow& window, GameResources& resources);
+		~Game() = default;
+
+		void update(const float& dt);
+		void draw(sf::RenderWindow& window);
+
+		GameMode selectMode(sf::RenderWindow& window);
+
+	private:
+		sf::RenderWindow& m_window;
+
+		// resources
+		GameResources& m_resources;
+
+		Leaderboard m_leaderBoard;
+
+		Menu m_menu;
+		NameInputScreen m_nameInput;
+
+		Player m_player;
+
+		std::vector<Apple> m_apples;
+		std::vector<Barrier> m_barriers;
+
+		// global game data
+		int m_numEatenApples{ 0 };
+		int m_currentApplesCount{ 0 };
+		bool m_isPaused{ false };
+		float m_pauseTime{ PAUSE_TIME };
+		float m_pauseTimeLeft{ 0.f };
+
+		GameMode m_currentMode{ GameMode::None };
+
+		Scoreboard m_scoreboard;
 
 		void initApples();
 		void initBarriers();

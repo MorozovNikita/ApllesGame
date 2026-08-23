@@ -9,7 +9,9 @@ namespace ApplesGame
 
 	struct Apple
 	{
-		void init(const sf::Texture& texture);
+		Apple(const sf::Texture& texture);
+		~Apple() = default;
+
 		void draw(sf::RenderWindow& window);
 
 		bool m_isEaten{ false };

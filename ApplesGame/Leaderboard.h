@@ -17,10 +17,12 @@ namespace ApplesGame
     class Leaderboard
     {
     public:
-        void generate(int npcCount);
-        const std::set<Record>& getRecords() const;
+        Leaderboard(int size);
+        ~Leaderboard() = default;
 
+        const std::set<Record>& getRecords() const;
         int getScoreMinValue() const;
+
         void insertNewRecord(Record record);
 
     private:

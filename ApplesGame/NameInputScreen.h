@@ -9,15 +9,13 @@ namespace ApplesGame
     class NameInputScreen
     {
     public:
-        void init(const sf::Font& font);
+        NameInputScreen(const sf::Font& font);
+        ~NameInputScreen() = default;
+
         std::string run(sf::RenderWindow& window, int score);
 
     private:
-        void draw(sf::RenderWindow& window, int score);
-        void handleInput(const sf::Event& event);
-        void updateNameText();
-
-        const sf::Font* m_font{ nullptr };
+        const sf::Font& m_font;
         std::string m_playerName;
 
         sf::Text m_titleText;
@@ -25,6 +23,12 @@ namespace ApplesGame
         sf::Text m_labelText;
         sf::Text m_nameText;
         sf::Text m_hintText;
+
+        void init();
+
+        void draw(sf::RenderWindow& window, int score);
+        void handleInput(const sf::Event& event);
+        void updateNameText();
     };
 
 } // namespace ApplesGame

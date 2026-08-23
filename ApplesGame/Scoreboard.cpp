@@ -7,18 +7,21 @@
 
 namespace ApplesGame
 {
-    void Scoreboard::init(const sf::Font& font, const int& totalApples)
+    Scoreboard::Scoreboard(const sf::Font& font)
     {
         m_scoreText.setFont(font);
         m_scoreText.setCharacterSize(FONT_SIZE);
         m_scoreText.setFillColor(sf::Color::White);
         m_scoreText.setStyle(sf::Text::Bold);
         m_scoreText.setPosition(MARGIN, MARGIN);
+    }
 
+    void Scoreboard::reset(const int& totalApples)
+    {
         totalApples ? update(0, totalApples) : update(0);
     }
 
-    void Scoreboard::update(int numEatenApples)
+    void Scoreboard::update(const int& numEatenApples)
     {
         m_scoreText.setString("Apples: " + std::to_string(numEatenApples));
     }

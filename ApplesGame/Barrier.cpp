@@ -5,7 +5,7 @@
 namespace ApplesGame
 {
 
-	void Barrier::init(const sf::Texture& texture)
+	Barrier::Barrier(const sf::Texture& texture)
 	{
 		m_position = getRandomPosition(SCREEN_WIDTH, SCREEN_HEIGHT);
 
