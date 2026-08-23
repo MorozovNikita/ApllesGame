@@ -30,7 +30,10 @@ namespace ApplesGame
 		const float scaleY = SCREEN_HEIGHT / static_cast<float>(textureSize.y);
 		m_backgroundSprite.setScale(scaleX, scaleY);
 
-		m_menu.init(m_font);
+		// tmp
+		m_leaderBoard.generate(15);
+
+		m_menu.init(m_font, m_leaderBoard);
 		m_nameInput.init(m_font);
 	}
 
@@ -207,10 +210,10 @@ namespace ApplesGame
 		else
 			m_deathSound.play();
 			
-		if (m_menu.getScoreMinValue() < m_numEatenApples)
+		if (m_leaderBoard.getScoreMinValue() < m_numEatenApples)
 		{
 			auto name = m_nameInput.run(*m_window, m_numEatenApples);
-			m_menu.insertToLeaderBoard({name, m_numEatenApples});
+			m_leaderBoard.insertNewRecord({name, m_numEatenApples});
 		}
 
 		resetState();

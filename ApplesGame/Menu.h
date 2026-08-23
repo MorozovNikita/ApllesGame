@@ -20,11 +20,8 @@ namespace ApplesGame
     class Menu
     {
     public:
-        void init(const sf::Font& font);
+        void init(const sf::Font& font, Leaderboard& leaderBoard);
         GameMode run(sf::RenderWindow& window);
-
-        int getScoreMinValue() const;
-        void insertToLeaderBoard(Record record);
 
     private:
         void draw(sf::RenderWindow& window);

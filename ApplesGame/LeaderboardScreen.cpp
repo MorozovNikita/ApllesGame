@@ -16,8 +16,6 @@ namespace ApplesGame
         m_hintText = createText(*m_font, LD_HINT_SIZE, hintColor);
         m_hintText.setString("ESC or ENTER - back to menu");
         centerTextHorizontally(m_hintText, SCREEN_WIDTH / 2.f, SCREEN_HEIGHT - LD_HINT_Y_OFFSET);
-
-        m_leaderboard.generate(15);
     }
 
     void LeaderboardScreen::run(sf::RenderWindow& window)
@@ -44,14 +42,9 @@ namespace ApplesGame
         }
     }
 
-    int LeaderboardScreen::getScoreMinValue() const
+    void LeaderboardScreen::setLeaderBoard(Leaderboard& leaderBoard)
     {
-        return m_leaderboard.getScoreMinValue();
-    }
-
-    void LeaderboardScreen::insertNewRecord(Record record)
-    {
-        m_leaderboard.insertNewRecord(record);
+        m_leaderboard = &leaderBoard;
     }
 
     void LeaderboardScreen::draw(sf::RenderWindow& window)
@@ -60,7 +53,7 @@ namespace ApplesGame
 
         window.draw(m_titleText);
 
-        const auto& records = m_leaderboard.getRecords();
+        const auto& records = m_leaderboard->getRecords();
 
         if (records.empty())
         {

@@ -12,8 +12,7 @@ namespace ApplesGame
         void init(const sf::Font& font);
         void run(sf::RenderWindow& window);
 
-        int getScoreMinValue() const;
-        void insertNewRecord(Record record);
+        void setLeaderBoard(Leaderboard& leaderBoard);
 
     private:
         void draw(sf::RenderWindow& window);
@@ -21,7 +20,7 @@ namespace ApplesGame
         sf::Text createText(const sf::Font& font, int size, sf::Color color);
 
         const sf::Font* m_font{ nullptr };
-        Leaderboard m_leaderboard;
+        Leaderboard* m_leaderboard;
 
         sf::Text m_titleText;
         sf::Text m_hintText;

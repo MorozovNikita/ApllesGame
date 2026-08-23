@@ -59,7 +59,7 @@ namespace ApplesGame
 	const float LD_SCORE_X				 = 500.f;
 	const float LD_HINT_Y_OFFSET		 = 50.f;
 
-	const size_t MAX_RECORDS			 = 10;
+	const int MAX_RECORDS				 = 10;
 
 	//
 	const sf::Color textColor(255, 255, 255);

@@ -34,6 +34,8 @@ namespace ApplesGame
 		Scoreboard m_scoreboard;
 		NameInputScreen m_nameInput;
 
+		Leaderboard m_leaderBoard;
+
 		// global game data
 		int m_numEatenApples{ 0 };
 		int m_currentApplesCount{ 0 };

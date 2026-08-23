@@ -8,7 +8,7 @@ namespace ApplesGame
     {
         m_records.clear();
 
-        for (int i{ 0 }; i < std::min(count, 10); ++i)
+        for (int i{ 0 }; i < std::min(count, MAX_RECORDS); ++i)
             m_records.insert({ "Test"s + std::to_string(i), 10 * i});
     }
 
@@ -19,6 +19,9 @@ namespace ApplesGame
 
     int Leaderboard::getScoreMinValue() const
     {
+        if (m_records.empty())
+            return -1;
+
         return m_records.crbegin()->score;
     }
 
