@@ -2,14 +2,19 @@
 
 #include <cassert>
 #include <random>
+#include <memory>
+
+#include "GlobalLeaderboard.h"
+#include "PersonalBestLeaderboard.h"
 
 namespace ApplesGame
 {
 	Game::Game(sf::RenderWindow& window, GameResources& resources)
 		: m_window(window)
 		, m_resources(resources)
-		, m_leaderBoard(10)
-		, m_menu(m_leaderBoard, m_resources.m_font)
+		, m_leaderBoard(std::make_unique<PersonalBestLeaderboard>(10))
+		//, m_leaderBoard(std::make_unique<GlobalLeaderboard>(10))
+		, m_menu(*m_leaderBoard, m_resources.m_font)
 		, m_nameInput(m_resources.m_font)
 		, m_scoreboard(m_resources.m_font)
 	{
@@ -18,6 +23,8 @@ namespace ApplesGame
 		const float scaleY = SCREEN_HEIGHT / static_cast<float>(textureSize.y);
 		m_resources.m_backgroundSprite.setScale(scaleX, scaleY);
 	}
+
+	Game::~Game() = default;
 
 	void Game::update(const float& dt)
 	{
@@ -189,11 +196,13 @@ namespace ApplesGame
 		else
 			m_resources.m_deathSound.play();
 			
-		if (m_leaderBoard.getScoreMinValue() < m_numEatenApples)
+		if (m_leaderBoard->getScoreMinValue() < m_numEatenApples)
 		{
 			auto name = m_nameInput.run(m_window, m_numEatenApples);
-			m_leaderBoard.insertNewRecord({name, m_numEatenApples});
+			m_leaderBoard->insertNewRecord({name, m_numEatenApples});
 		}
+
+		m_menu.runLeaderBoard(m_window);
 
 		resetState();
 

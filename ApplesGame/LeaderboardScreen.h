@@ -2,21 +2,23 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Leaderboard.h"
+#include <memory>
+
+#include "GlobalLeaderboard.h"
 
 namespace ApplesGame
 {
     class LeaderboardScreen
     {
     public:
-        LeaderboardScreen(Leaderboard& leaderBoard, const sf::Font& font);
+        LeaderboardScreen(LeaderboardBase& leaderboard, const sf::Font& font);
         ~LeaderboardScreen() = default;
 
         void run(sf::RenderWindow& window);
 
     private:
         const sf::Font& m_font;
-        Leaderboard& m_leaderboard;
+        LeaderboardBase& m_leaderboard;
 
         sf::Text m_titleText;
         sf::Text m_hintText;

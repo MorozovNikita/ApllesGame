@@ -37,7 +37,10 @@
     <ClCompile Include="LeaderboardScreen.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Leaderboard.cpp">
+    <ClCompile Include="GlobalLeaderboard.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="PersonalBestLeaderboard.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -75,7 +78,13 @@
     <ClInclude Include="LeaderboardScreen.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="Leaderboard.h">
+    <ClInclude Include="GlobalLeaderboard.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="LeaderboardBase.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="PersonalBestLeaderboard.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

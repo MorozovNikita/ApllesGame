@@ -8,6 +8,7 @@
 #include "Scoreboard.h"
 #include "Menu.h"
 #include "NameInputScreen.h"
+#include "LeaderboardBase.h"
 
 namespace ApplesGame
 {
@@ -38,7 +39,7 @@ namespace ApplesGame
 	{
 	public:
 		Game(sf::RenderWindow& window, GameResources& resources);
-		~Game() = default;
+		~Game();
 
 		void update(const float& dt);
 		void draw(sf::RenderWindow& window);
@@ -51,7 +52,7 @@ namespace ApplesGame
 		// resources
 		GameResources& m_resources;
 
-		Leaderboard m_leaderBoard;
+		std::unique_ptr<LeaderboardBase> m_leaderBoard;
 
 		Menu m_menu;
 		NameInputScreen m_nameInput;

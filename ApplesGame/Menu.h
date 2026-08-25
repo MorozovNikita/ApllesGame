@@ -20,11 +20,12 @@ namespace ApplesGame
     class Menu
     {
     public:
-        Menu(Leaderboard& leaderBoard, const sf::Font& font);
+        Menu(LeaderboardBase& leaderboard, const sf::Font& font);
         ~Menu() = default;
 
         void init();
         GameMode run(sf::RenderWindow& window);
+        void runLeaderBoard(sf::RenderWindow& window);
 
     private:
         void draw(sf::RenderWindow& window);

@@ -5,7 +5,7 @@
 
 namespace ApplesGame
 {
-    LeaderboardScreen::LeaderboardScreen(Leaderboard& leaderBoard, const sf::Font& font)
+    LeaderboardScreen::LeaderboardScreen(LeaderboardBase& leaderBoard, const sf::Font& font)
         : m_leaderboard(leaderBoard)
         , m_font(font)
     {

@@ -6,7 +6,7 @@
 
 namespace ApplesGame
 {
-    Menu::Menu(Leaderboard& leaderBoard, const sf::Font& font)
+    Menu::Menu(LeaderboardBase& leaderBoard, const sf::Font& font)
         : m_leaderBoardScreen(leaderBoard, font)
         , m_font(font)
     {
@@ -121,6 +121,11 @@ namespace ApplesGame
         }
 
         return selectedMode;
+    }
+
+    void Menu::runLeaderBoard(sf::RenderWindow& window)
+    {
+        m_leaderBoardScreen.run(window);
     }
 
     void Menu::handleInput(const sf::Event& event)
