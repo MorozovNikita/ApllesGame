@@ -12,11 +12,11 @@ namespace ApplesGame
 	Game::Game(sf::RenderWindow& window, GameResources& resources)
 		: m_window(window)
 		, m_resources(resources)
-		, m_leaderBoard(std::make_unique<PersonalBestLeaderboard>(10))
-		//, m_leaderBoard(std::make_unique<GlobalLeaderboard>(10))
+		, m_leaderBoard(std::make_unique<GlobalLeaderboard>(MAX_RECORDS))
 		, m_menu(*m_leaderBoard, m_resources.m_font)
 		, m_nameInput(m_resources.m_font)
 		, m_scoreboard(m_resources.m_font)
+		, m_pauseMenu(m_resources.m_font)
 	{
 		const auto textureSize = m_resources.m_backgroundTexture.getSize();
 		const float scaleX = SCREEN_WIDTH / static_cast<float>(textureSize.x);
@@ -144,6 +144,20 @@ namespace ApplesGame
 		m_scoreboard.draw(window);
 	}
 
+	void Game::pause(sf::RenderWindow& window)
+	{
+		setPauseTrue();
+		auto pauseRes = m_pauseMenu.run(window);
+		if (pauseRes == PauseMenuResult::Continue)
+		{
+			
+		}
+		else
+		{
+
+		}
+	}
+
 	GameMode Game::selectMode(sf::RenderWindow& window)
 	{
 		m_currentMode = m_menu.run(window);
@@ -151,9 +165,7 @@ namespace ApplesGame
 		if (m_currentMode != GameMode::None)
 		{
 			resetState();
-
-			m_isPaused = true;
-			m_pauseTimeLeft = m_pauseTime;
+			setPauseTrue();
 		}
 
 		return m_currentMode;
@@ -205,7 +217,11 @@ namespace ApplesGame
 		m_menu.runLeaderBoard(m_window);
 
 		resetState();
+		setPauseTrue();
+	}
 
+	void Game::setPauseTrue()
+	{
 		m_isPaused = true;
 		m_pauseTimeLeft = m_pauseTime;
 	}

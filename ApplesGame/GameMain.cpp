@@ -56,6 +56,9 @@ int main()
 				dt = 0.f;
 				break;
 			}
+
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::P || event.key.code == sf::Keyboard::Space)
+				game.pause(window);
 		}
 
 		// update game state

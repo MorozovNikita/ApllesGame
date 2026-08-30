@@ -9,6 +9,7 @@
 #include "Menu.h"
 #include "NameInputScreen.h"
 #include "LeaderboardBase.h"
+#include "PauseMenu.h"
 
 namespace ApplesGame
 {
@@ -43,6 +44,7 @@ namespace ApplesGame
 
 		void update(const float& dt);
 		void draw(sf::RenderWindow& window);
+		void pause(sf::RenderWindow& window);
 
 		GameMode selectMode(sf::RenderWindow& window);
 
@@ -73,10 +75,13 @@ namespace ApplesGame
 
 		Scoreboard m_scoreboard;
 
+		PauseMenu m_pauseMenu;
+
 		void initApples();
 		void initBarriers();
 		void resetState();
 		void restart(bool isWin = false);
+		void setPauseTrue();
 
 		void randomizeApplesCount();
 

@@ -15,12 +15,14 @@ namespace ApplesGame
 
     void Menu::init()
     {
-        m_items = { { "1. Finite Apples + With Acceleration",GameMode::FiniteApples | GameMode::WithAcceleration },
-                  { "2. Finite Apples + Without Acceleration", GameMode::FiniteApples | GameMode::WithoutAcceleration },
-                  { "3. Infinite Apples + With Acceleration", GameMode::InfiniteApples | GameMode::WithAcceleration },
-                  { "4. Infinite Apples + Without Acceleration", GameMode::InfiniteApples | GameMode::WithoutAcceleration },
-                  { "Leaderboard", GameMode::None },
-                };
+        m_items = 
+        { 
+            { "1. Finite Apples + With Acceleration",GameMode::FiniteApples | GameMode::WithAcceleration },
+            { "2. Finite Apples + Without Acceleration", GameMode::FiniteApples | GameMode::WithoutAcceleration },
+            { "3. Infinite Apples + With Acceleration", GameMode::InfiniteApples | GameMode::WithAcceleration },
+            { "4. Infinite Apples + Without Acceleration", GameMode::InfiniteApples | GameMode::WithoutAcceleration },
+            { "Leaderboard", GameMode::None },
+         };
 
         m_selectedIndex = 0;
 
@@ -45,8 +47,7 @@ namespace ApplesGame
             text.setPosition(centerX, textY);
 
             sf::FloatRect bounds = text.getGlobalBounds();
-            text.move(centerX - (bounds.left + bounds.width / 2.f),
-                textY - (bounds.top + bounds.height / 2.f));
+            text.move(centerX - (bounds.left + bounds.width / 2.f), textY - (bounds.top + bounds.height / 2.f));
 
             m_itemTexts.push_back(text);
         }

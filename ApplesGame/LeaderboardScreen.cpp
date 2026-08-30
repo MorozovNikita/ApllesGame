@@ -19,7 +19,7 @@ namespace ApplesGame
         centerTextHorizontally(m_titleText, SCREEN_WIDTH / 2.f, LD_TITLE_Y);
 
         m_hintText = createText(m_font, LD_HINT_SIZE, hintColor);
-        m_hintText.setString("ESC or ENTER - back to menu");
+        m_hintText.setString("BACKSPACE/ESCAPE - back to menu");
         centerTextHorizontally(m_hintText, SCREEN_WIDTH / 2.f, SCREEN_HEIGHT - LD_HINT_Y_OFFSET);
     }
 
@@ -37,7 +37,8 @@ namespace ApplesGame
                 }
 
                 if (event.type == sf::Event::KeyPressed 
-                    && (event.key.code == sf::Keyboard::Escape || event.key.code == sf::Keyboard::Enter))
+                    && (event.key.code == sf::Keyboard::BackSpace
+                        || event.key.code == sf::Keyboard::Escape))
                 {
                     return;
                 }
