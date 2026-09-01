@@ -1,6 +1,6 @@
 #include "Player.h"
 
-#include "Game.h"
+#include "GameState.h"
 
 namespace ApplesGame
 {

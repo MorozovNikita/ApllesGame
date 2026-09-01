@@ -22,19 +22,19 @@
     <ClCompile Include="Barrier.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="GameState.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Scoreboard.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Menu.cpp">
+    <ClCompile Include="MenuState.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="NameInputScreen.cpp">
+    <ClCompile Include="NameInputState.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="LeaderboardScreen.cpp">
+    <ClCompile Include="LeaderboardState.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="GlobalLeaderboard.cpp">
@@ -43,7 +43,19 @@
     <ClCompile Include="PersonalBestLeaderboard.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="PauseMenu.cpp">
+    <ClCompile Include="PauseState.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="StateStack.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GameResources.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverState.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,7 +75,7 @@
     <ClInclude Include="Barrier.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="GameState.h">
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="Scoreboard.h">
@@ -72,13 +84,13 @@
     <ClInclude Include="GameMode.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="Menu.h">
+    <ClInclude Include="MenuState.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="NameInputScreen.h">
+    <ClInclude Include="NameInputState.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="LeaderboardScreen.h">
+    <ClInclude Include="LeaderboardState.h">
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="GlobalLeaderboard.h">
@@ -90,7 +102,19 @@
     <ClInclude Include="PersonalBestLeaderboard.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="PauseMenu.h">
+    <ClInclude Include="PauseState.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="StateStack.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="GameResources.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverState.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

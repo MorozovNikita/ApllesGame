@@ -1,21 +1,28 @@
-#include "PauseMenu.h"
+#include "PauseState.h"
 
+#include "StateStack.h"
 #include "Constants.h"
+#include "GameResources.h"
 
 namespace ApplesGame
 {
-    PauseMenu::PauseMenu(const sf::Font& font)
-        : m_font(font)
+    PauseState::PauseState(StateStack& stack, Context& context)
+        : State(stack, context)
+        , m_font(context.resources.m_font)
+        , m_selectedIndex(0)
     {
-        m_items = 
+        m_items =
         {
-            "Resume Game",
-            "Exit to Menu",
+            "Resume Game"s,
+            "Exit to Menu"s,
         };
+
+        m_backgroundShape.setSize(sf::Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT));
+        m_backgroundShape.setFillColor(sf::Color(0, 0, 0, 150));
 
         m_titleText.setFont(m_font);
         m_titleText.setCharacterSize(MENU_TITLE_SIZE);
-        m_titleText.setFillColor(titleColor);
+        m_titleText.setFillColor(TITLE_COLOR);
         m_titleText.setString("PAUSE");
 
         sf::FloatRect titleBounds = m_titleText.getGlobalBounds();
@@ -25,7 +32,7 @@ namespace ApplesGame
         for (size_t i = 0; i < m_items.size(); ++i)
         {
             sf::Text text(m_items[i], m_font, MENU_ITEM_SIZE);
-            text.setFillColor(textColor);
+            text.setFillColor(TEXT_COLOR);
             text.setOutlineColor(sf::Color::Yellow);
 
             float textY = startY + i * MENU_SPACING;
@@ -39,7 +46,7 @@ namespace ApplesGame
 
         m_hintText.setFont(m_font);
         m_hintText.setCharacterSize(10);
-        m_hintText.setFillColor(hintColor);
+        m_hintText.setFillColor(HINT_COLOR);
         m_hintText.setString("UP/DOWN - navigate, ENTER - select, ESC - resume");
 
         sf::FloatRect hintBounds = m_hintText.getGlobalBounds();
@@ -48,47 +55,54 @@ namespace ApplesGame
         updateTexts();
     }
 
-    PauseMenuResult PauseMenu::run(sf::RenderWindow& window)
+    void PauseState::draw()
     {
-        m_selectedIndex = 0;
-        updateTexts();
+        mContext.window.draw(m_backgroundShape);
+        mContext.window.draw(m_titleText);
 
-        while (window.isOpen())
-        {
-            sf::Event event;
-            while (window.pollEvent(event))
-            {
-                if (event.type == sf::Event::Closed)
-                {
-                    window.close();
-                    return PauseMenuResult::None;
-                }
+        for (const auto& text : m_itemTexts)
+            mContext.window.draw(text);
 
-                handleInput(event);
-
-                if (event.type == sf::Event::KeyPressed)
-                {
-                    if (event.key.code == sf::Keyboard::Enter)
-                    {
-                        if (m_selectedIndex == 0)
-                            return PauseMenuResult::Continue;
-                        else if (m_selectedIndex == 1)
-                            return PauseMenuResult::ExitToMenu;
-                    }
-                    else if (event.key.code == sf::Keyboard::Escape)
-                    {
-                        return PauseMenuResult::Continue;
-                    }
-                }
-            }
-
-            draw(window);
-        }
-
-        return PauseMenuResult::None;
+        mContext.window.draw(m_hintText);
     }
 
-    void PauseMenu::handleInput(const sf::Event& event)
+    bool PauseState::update(sf::Time dt)
+    {
+        return false;
+    }
+
+    bool PauseState::handleEvent(const sf::Event& event)
+    {
+        handleInput(event);
+
+        if (event.type == sf::Event::KeyPressed)
+        {
+            if (event.key.code == sf::Keyboard::Enter)
+            {
+                if (m_selectedIndex == 0)
+                {
+                    mStack.popState();
+                    return false;
+                }
+                else if (m_selectedIndex == 1)
+                {
+                    mStack.popState();
+                    mStack.popState();
+
+                    return false;
+                }
+            }
+            else if (event.key.code == sf::Keyboard::Escape)
+            {
+                mStack.popState();
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    void PauseState::handleInput(const sf::Event& event)
     {
         if (event.type != sf::Event::KeyPressed)
             return;
@@ -109,30 +123,17 @@ namespace ApplesGame
         }
     }
 
-    void PauseMenu::updateTexts()
+    void PauseState::updateTexts()
     {
         for (size_t i = 0; i < m_itemTexts.size(); ++i)
         {
             const bool isSelected = (static_cast<int>(i) == m_selectedIndex);
 
             if (isSelected)
-                m_itemTexts[i].setFillColor(selectedColor);
+                m_itemTexts[i].setFillColor(SELECTED_COLOR);
             else
-                m_itemTexts[i].setFillColor(textColor);
+                m_itemTexts[i].setFillColor(TEXT_COLOR);
         }
     }
 
-    void PauseMenu::draw(sf::RenderWindow& window)
-    {
-        window.clear(backgroundColor);
-
-        window.draw(m_titleText);
-
-        for (const auto& text : m_itemTexts)
-            window.draw(text);
-
-        window.draw(m_hintText);
-
-        window.display();
-    }
-}
+} // namespace ApplesGame

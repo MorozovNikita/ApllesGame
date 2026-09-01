@@ -62,11 +62,11 @@ namespace ApplesGame
 	const int MAX_RECORDS				 = 10;
 
 	//
-	const sf::Color textColor(255, 255, 255);
-	const sf::Color hintColor(150, 150, 150);
-	const sf::Color backgroundColor(20, 20, 40);
-	const sf::Color normalColor(200, 200, 200);
-	const sf::Color selectedColor(255, 255, 0);
-	const sf::Color titleColor(255, 255, 255);
+	const sf::Color TEXT_COLOR(255, 255, 255);
+	const sf::Color HINT_COLOR(150, 150, 150);
+	const sf::Color BACKGROUND_COLOR(20, 20, 40);
+	const sf::Color NORMAL_COLOR(200, 200, 200);
+	const sf::Color SELECTED_COLOR(255, 255, 0);
+	const sf::Color TITLE_COLOR(255, 255, 255);
 
 } // namespace ApplesGame

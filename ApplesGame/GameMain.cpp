@@ -1,76 +1,63 @@
-﻿// ©2023, XYZ School. All rights reserved.
-// Authored by Aleksandr Rybalka (polterageist@gmail.com)
+﻿#include <SFML/Graphics.hpp>
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-
-#include "Game.h"
+#include "StateStack.h"
+#include "MenuState.h"
+#include "GameState.h"
+#include "PauseState.h"
+#include "LeaderboardBase.h"
+#include "NameInputState.h"
+#include "GameResources.h"
+#include "GlobalLeaderboard.h"
+#include "GameOverState.h"
 
 int main()
 {
-	using namespace ApplesGame;
+    using namespace ApplesGame;
+    srand((int)time(nullptr));
 
-	int seed = (int)time(nullptr);
-	srand(seed);
+    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Apples game!");
 
-	// init window
-	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Apples game!");
+    GameResources gameResources;
+    auto leaderboard = std::make_unique<GlobalLeaderboard>(MAX_RECORDS);
 
-	// gameResources initialization
-	GameResources gameResources;
+    State::GameData gameData;
+    State::Context context{window, *leaderboard, gameResources, gameData};
 
-	// game initialization
-	ApplesGame::Game game(window, gameResources);
+    StateStack stateStack(context);
 
-	// select mode
-	GameMode selectedMode = game.selectMode(window);
-	if (selectedMode == GameMode::None)
-		return 0;
+    stateStack.registerState<MenuState>(States::Menu);
+    stateStack.registerState<GameState>(States::Game);
+    stateStack.registerState<PauseState>(States::Pause);
+    stateStack.registerState<LeaderboardState>(States::Leaderboard);
+    stateStack.registerState<NameInputState>(States::NameInput);
+    stateStack.registerState<GameOverState>(States::GameOver);
 
-	// init game clock
-	sf::Clock gameClock;
+    stateStack.pushState(States::Menu);
 
-	// main loop
-	while (window.isOpen())
-	{
-		// delta time
-		float dt = gameClock.restart().asSeconds();
-		 
-		// read events
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-			{
-				window.close();
-				break;
-			}
+    sf::Clock clock;
 
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-			{
-				selectedMode = game.selectMode(window);
-				if (selectedMode == GameMode::None)
-					return 0;
+    while (window.isOpen())
+    {
+        sf::Time dt = clock.restart();
 
-				gameClock.restart();
-				dt = 0.f;
-				break;
-			}
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
 
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::P || event.key.code == sf::Keyboard::Space)
-				game.pause(window);
-		}
+            stateStack.handleEvent(event);
+        }
 
-		// update game state
-		game.update(dt);
+        stateStack.update(dt);
 
-		// draw game
-		window.clear();
-		game.draw(window);
-		window.display();
-	}
+        window.clear();
+        stateStack.draw();
+        window.display();
 
-	// deinitialization
+        if (stateStack.isEmpty())
+            window.close();
+    }
 
-	return 0;
+    return 0;
 }

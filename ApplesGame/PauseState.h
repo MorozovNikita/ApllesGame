@@ -5,33 +5,32 @@
 #include <vector>
 #include <string>
 
+#include "State.h"
+
 namespace ApplesGame
 {
-    enum class PauseMenuResult
-    {
-        None,
-        Continue,
-        ExitToMenu,
-    };
-
-    class PauseMenu
+    class PauseState : public State
     {
     public:
-        PauseMenu(const sf::Font& font);
+        PauseState(StateStack& stack, Context& context);
 
-        PauseMenuResult run(sf::RenderWindow& window);
+        virtual void draw() override;
+        virtual bool update(sf::Time dt) override;
+        virtual bool handleEvent(const sf::Event& event) override;
 
     private:
         void handleInput(const sf::Event& event);
         void updateTexts();
-        void draw(sf::RenderWindow& window);
 
         const sf::Font& m_font;
-        int m_selectedIndex{ 0 };
+        int m_selectedIndex;
 
         std::vector<std::string> m_items;
         std::vector<sf::Text> m_itemTexts;
         sf::Text m_titleText;
         sf::Text m_hintText;
+
+        sf::RectangleShape m_backgroundShape;
     };
-}
+
+} // namespace ApplesGame

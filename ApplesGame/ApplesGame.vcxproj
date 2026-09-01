@@ -162,34 +162,42 @@
   <ItemGroup>
     <ClCompile Include="Apple.cpp" />
     <ClCompile Include="Barrier.cpp" />
-    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameMain.cpp" />
+    <ClCompile Include="GameOverState.cpp" />
+    <ClCompile Include="GameResources.cpp" />
     <ClCompile Include="GlobalLeaderboard.cpp" />
-    <ClCompile Include="LeaderboardScreen.cpp" />
+    <ClCompile Include="LeaderboardState.cpp" />
     <ClCompile Include="Math.cpp" />
-    <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="NameInputScreen.cpp" />
-    <ClCompile Include="PauseMenu.cpp" />
+    <ClCompile Include="MenuState.cpp" />
+    <ClCompile Include="NameInputState.cpp" />
+    <ClCompile Include="PauseState.cpp" />
     <ClCompile Include="PersonalBestLeaderboard.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scoreboard.cpp" />
+    <ClCompile Include="State.cpp" />
+    <ClCompile Include="StateStack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Apple.h" />
     <ClInclude Include="Barrier.h" />
     <ClInclude Include="Constants.h" />
-    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="GameMode.h" />
+    <ClInclude Include="GameOverState.h" />
+    <ClInclude Include="GameResources.h" />
     <ClInclude Include="GlobalLeaderboard.h" />
     <ClInclude Include="LeaderboardBase.h" />
-    <ClInclude Include="LeaderboardScreen.h" />
+    <ClInclude Include="LeaderboardState.h" />
     <ClInclude Include="Math.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="NameInputScreen.h" />
-    <ClInclude Include="PauseMenu.h" />
+    <ClInclude Include="MenuState.h" />
+    <ClInclude Include="NameInputState.h" />
+    <ClInclude Include="PauseState.h" />
     <ClInclude Include="PersonalBestLeaderboard.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scoreboard.h" />
+    <ClInclude Include="State.h" />
+    <ClInclude Include="StateStack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
